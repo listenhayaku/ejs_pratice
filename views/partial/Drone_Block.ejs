@@ -1,0 +1,42 @@
+<%for(var i = 0;i < amount;i++){%>
+    <div class="Drone_Block" id="Drone_Block_<%=i%>">
+        <div class="top">
+            <div class="left">
+                <div class="top parent_of_center">
+                    <img src="/static/img/drone_icon.png" alt="drone_icon" height="75px">
+                </div>
+                <div class="top">
+                    <p>id:<%=result[i]["id"]%></p>
+                </div>
+                <div class="top">
+                    <p>description:</p>
+                    <p><%=result[i]["description"]%></p>
+                </div>
+            </div>
+            <div class="right">
+                <p>ip:<%=result[i]["ip"]%></p>
+                <p>port:<%=result[i]["port"]%></p>
+                <p>name: <%=result[i]["name"]%></p>
+                <p id="Drone_Status_Sign_Offline_<%=i%>">offline</p>
+            </div>
+        </div>
+        <div class="top">
+            <form action="">
+                <!--太土砲了，以後看看有更好的辦法-->
+                <input name="id" value="<%=result[i]["id"]%>" style="display:none;">
+                <input name="description" value="<%=result[i]["description"]%>" style="display:none;">
+                <input name="ip" value="<%=result[i]["ip"]%>" style="display:none;">
+                <input name="port" value="<%=result[i]["port"]%>" style="display:none;">
+                <input name="name" value="<%=result[i]["name"]%>" style="display:none;">
+
+
+                <input type="text" name="Drone_Block_Input" id="Drone_Block_Input_<%=i%>">
+                <input type="submit">
+            </form>
+            <button id="show_log_<%=i%>">show log</button>    
+            <button id="detail_info_<%=i%>">detail info</button>    
+            <button id="pause_<%=i%>">pause</button>    
+        </div>
+    </div>	
+<%}%>
+

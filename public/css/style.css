@@ -1,0 +1,272 @@
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    color: #000000;
+    white-space: unset;
+    line-height: 1;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    background-color: var(--drone-primary-color-4);
+    height: 100%;
+    width: 100%;
+}
+
+button{
+    background-color: var(--drone-primary-color-4);
+    color: var(--drone-font-color-2);
+    border: var(--drone-primary-color-6) solid 3px;
+    padding: 3px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+
+button:hover{
+    background-color: var(--drone-primary-color-4-hover);
+    cursor: pointer;
+}
+
+
+ul{
+    list-style-type: none;
+    margin: 0px;
+}
+
+li{
+    margin: 0px;
+}
+
+iframe{
+    width: 85%;
+    height: 80vh;
+}
+
+.bg_red{
+    background-color: red;
+}
+
+.top{
+    float: left;
+    width: 100%;
+}
+
+.left{
+    float: left;
+    height: 100%;
+}
+
+.right{
+    float: left;
+    height: 100%;
+}
+
+.center{
+    text-align: center;
+}
+
+.parent_of_center{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+    align-items: center;      
+}
+
+h1.center.title{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: var(--drone-title-color-1);
+}
+
+.main{
+    width: 100vw;
+    display: flex;
+}
+
+.main_frame{
+    height: 100%;
+    min-height: 100vh;
+    width: calc(90% - 32px);
+    display: inline-block;
+    padding: 1rem;
+    background-color: var(--drone-background-color-1);
+}
+
+.navbar{
+    background-color: var(--drone-navbar-color-1);
+    width: 10%;
+    top: 0;
+    bottom: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.navbar ul{
+    background-color: var(--drone-navbar-color-1);
+}
+
+.navbar li a{
+    font-size: 1rem;
+    display: block;
+    padding: 1vw;
+    color: var(--drone-font-color-2);
+}
+
+.navbar li a:hover{
+    background-color: var(--drone-navbar-color-1-hover);
+    color: var(--drone-primary-color-2);
+    transition: 0.5s;
+}
+
+.drop_down_menu *{
+    
+}
+
+.drop_down_menu ul{
+    background-color: var(--drone-navbar-color-2);
+}
+
+.drop_down_menu ul:hover > li{
+    display: block;
+}
+
+.drop_down_menu li{
+    display: none;
+    
+    position: relative;
+    overflow: auto;
+}
+
+.Drone_Block{
+    background-color: var(--drone-primary-color-4);
+    display: inline-block;
+    height: 15rem;
+    width: 15rem;
+    margin-left: 3vw;
+    margin-top: 3vw;
+    box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.2);
+}
+
+.Drone_Block .top{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.Drone_Block .top form{
+    display: inline-block;
+    margin: 3px;
+}
+
+.Drone_Block .left{
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+}
+
+.Drone_Block p{
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.Drone_Block .left .top.parent_of_center{
+    background-color: var(--drone-primary-color-);
+}
+
+/*.Drone_Block .top input[type=submit]{*/
+input[type=submit]{
+    background-color: var(--drone-primary-color-4);
+    color: var(--drone-font-color-2);
+    border: var(--drone-primary-color-6) solid 3px;
+    padding: 3px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+
+/*.Drone_Block .top input[type=submit]:hover{*/
+input[type=submit]:hover{
+    background-color: var(--drone-primary-color-4-hover);
+    cursor: pointer;
+}
+
+
+#create_node_table{
+    width: 40vw;
+    /*padding: 2vh;*/
+    background-color: var(--drone-primary-color-6);
+    color: var(--drone-font-color-2);
+    border: var(--drone-primary-color-6) solid 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+
+#create_node_table tr{
+    height: 8vh;
+    width: inherit;
+    font-size: 1.5rem;
+    background-color: var(--drone-primary-color-4);
+}
+
+#create_node_table tr:nth-child(even){
+    background-color: var(--drone-primary-color-4);
+}
+
+#create_node_table td{
+    height: inherit;
+}
+
+#create_node_table tr td:first-child{
+    width: 20%;
+}
+
+#create_node_table input[type=text]{
+    background-color: #fefefe;
+    border: #aaaaaa solid 1px;
+    height: 1.5rem;
+    width: 80%;
+}
+
+#create_node_table ~ input[type="submit"]{
+    border-width: 5px;
+    font-size: 1.5rem;
+    min-width: calc(3.6rem + 6px);
+    height: 5vh;
+    width: 5vw;
+    margin-top: 5vh;
+    float: right;
+}
+
+
+[id^="Drone_Status_Sign_Offline_"]::before{
+    display: inline-block;
+    content: "";
+    height: 8px;
+    width: 8px;
+    border: red solid 1px;
+    border-radius: 100%;
+    background-color: red;
+    margin-right: 5%;
+}
+
+
+[id^="Drone_Status_Sign_Online_"]::before{
+    display: inline-block;
+    content: "";
+    height: 8px;
+    width: 8px;
+    border: green solid 1px;
+    border-radius: 100%;
+    background-color: green;
+    margin-right: 5%;
+}
+
+
+

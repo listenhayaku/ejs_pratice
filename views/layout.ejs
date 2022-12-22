@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/static/css/style.css" rel="stylesheet">
+	<link href="/static/css/color.css" rel="stylesheet">
+	<title>Home</title>
+</head>
+<body>
+	<h1 class="center title"><%=title%></h1>
+	<div class="main">
+		<div class="navbar">
+			<ul class="center">
+				<li>
+					<a href="/">Home</a>
+				</li>
+				<li>
+					<a href="Drone_Status">Drone_Status</a>
+				</li>
+				<li>
+					<a href="/Chart">Chart</a>
+				</li>
+
+				<li>
+					<div class="drop_down_menu">
+						<ul>
+							<a href="/Ajax?Hello">Ajax</a>
+							<li>
+								<a href="Ajax?Drone_Status">Ajax2</a>
+							</li>
+							<li>
+								<a href="Ajax?show_log">Ajax3</a>
+							</li>
+							<li>
+								<a href="Ajax?ip">ip</a>
+							</li>
+						</ul>						
+					</div>
+
+				</li>
+
+				<li>
+					<a href="/Test">Test</a>
+				</li>
+			</ul>
+		</div>
+		<div class="main_frame" id="main_frame">
+			<%-body%>
+		</div>
+	</div>
+	<script src="/static/js/jquery-3.6.1.min.js"></script>
+    <script src="/static/js/script.js"></script>
+	<!--this is ajax lib-->
+	<!--<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>-->
+
+</body>
+</html>
