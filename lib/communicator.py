@@ -33,4 +33,5 @@ client = init(ip,port)
 STOP = False
 #client.send(msg.encode("utf-8"))
 print("(debug)[communicator.py]after client.send")
+time.sleep(0.1)
 client.close()

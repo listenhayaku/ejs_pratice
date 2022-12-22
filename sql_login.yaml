@@ -3,3 +3,4 @@
   user: "user"
   password: "user"
   database: "project"
+  table: "drone_info"

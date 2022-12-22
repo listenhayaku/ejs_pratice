@@ -17,9 +17,10 @@ const communicator = require("./lib/communicator");
 const { emitWarning } = require("process");
 //declare
 //===========================================================================
-//
-let timer;
+//global
 
+//global
+//===========================================================================
 function main(){
   // 讀取 EJS 檔案位置
   app.set("views", "./views");
@@ -42,7 +43,7 @@ function main(){
       }
       connect_to_node();
     }
-    mylib.get_mysql("SELECT * FROM project.drone_info;",function(result){
+    mylib.get_mysql("SELECT * FROM {database}.{table};",function(result){
       res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
     });
   });
@@ -58,7 +59,7 @@ function main(){
       res.render("create_node",{"title":"create_node",});
     }
     else{
-      mylib.get_mysql("INSERT INTO drone_info VALUES( "+q.id+",\""+q.ip+"\","+q.port+",\""+q.name+"\",\""+q.description+"\");",function(result){
+      mylib.get_mysql("INSERT INTO {table} VALUES( "+q.id+",\""+q.ip+"\","+q.port+",\""+q.name+"\",\""+q.description+"\");",function(result){
         console.log("(debug)[create_node]INSERT sql:"+result);
         if(result == false){
           res.redirect("/Drone_Status");
@@ -79,7 +80,6 @@ function main(){
       res.render("show_log",{"title":"show log","number":number,})
     }
   });
-
   //api
   app.get("/Ajax",(req,res) =>{
     var q = url.parse(req.url,true);
@@ -90,7 +90,7 @@ function main(){
       res.end();
     }
     else if(q.search == "?Drone_Status"){
-      mylib.get_mysql("SELECT * FROM project.drone_info",function(result){
+      mylib.get_mysql("SELECT * FROM {database}.{table}",function(result){
         var write = result;
         res.write(JSON.stringify(result));
         res.end();
