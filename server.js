@@ -13,7 +13,7 @@ const { resolveObjectURL } = require("buffer");
 //mylib
 const mylib = require("./lib/mylib");
 const api = require("./api");
-const communicator = require("./communicator");
+const communicator = require("./lib/communicator");
 const { emitWarning } = require("process");
 //declare
 //===========================================================================
