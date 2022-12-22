@@ -42,6 +42,9 @@ exports.api = function(){
         });
       },500);
       
+      //monitor改道這裡不知道會不會有問題，例如很多連線的時候會怎開timer？
+      mylib.monitor();
+      const monitorTimer = setInterval(()=>mylib.monitor(),3000);
 
       //對 message 設定監聽，接收從 Client 發送的訊息
       ws.on('message', data => {
@@ -61,6 +64,7 @@ exports.api = function(){
 
       ws.on('close', () => {
           clearInterval(sendNowTime);
+          clearInterval(monitorTimer);
           console.log('[api]Close connected')
       })
   })

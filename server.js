@@ -18,6 +18,8 @@ const { emitWarning } = require("process");
 //declare
 //===========================================================================
 //
+let timer;
+
 function main(){
   // 讀取 EJS 檔案位置
   app.set("views", "./views");
@@ -28,34 +30,21 @@ function main(){
   app.get("/", (req, res) => {
       res.render("index",{"title":"Home","description":"test description"});
   });
-  app.get("/Drone_Status", (req, res) => {
+  app.get("/Drone_Status",async (req, res) => {
     var q = url.parse(req.url,true).search;
     if(q != null){
       async function connect_to_node(){
         q = url.parse(req.url,true).query;
-        const ret = await communicator.main(q.ip,q.port,q.Drone_Block_Input);
+        //const ret = await communicator.main(q.ip,q.port,q.Drone_Block_Input);
+        const ret = await mylib.communicator(q.ip,q.port,q.Drone_Block_Input);
         console.log("(debug)[server.js][main]ret:",ret);
-        var sql;
-        if(ret == 1){
-          sql = "UPDATE project.drone_info SET status="+0+" WHERE id="+q.id+";";
-        }
-        else if(ret == 0){
-          sql = "UPDATE project.drone_info SET status="+1+" WHERE id="+q.id+";";
-        }
-        else{
-          console.log("[server.js][main][Drone_Status]commnicator return value is not 1 or 0");
-        }
-        mylib.get_mysql(sql,function(result){
-          //console.log("(debug)[server.js][main]sql = ",sql);
-          //console.log("(debug)[server.js][main]sql result = ",result);
-        });
+        
       }
       connect_to_node();
     }
     mylib.get_mysql("SELECT * FROM project.drone_info;",function(result){
       res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
     });
-    
   });
   app.get("/Chart", (req, res) => {
     res.render("Chart",{"title":"Chart","test":87,});
