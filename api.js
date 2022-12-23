@@ -45,7 +45,7 @@ exports.api = function(){
       //monitor改道這裡不知道會不會有問題，例如很多連線的時候會怎開timer？
       //突然想到其實讓它一直執行也沒關係，不過目前不是在Drone_Status頁面的話就用不到，之後在評估看看有沒有其他東西會用到，夠多的話就把它移到直接執行
       mylib.monitor();
-      const monitorTimer = setInterval(()=>mylib.monitor(),3000);
+      const monitorTimer = setInterval(()=>mylib.monitor(),5000);
 
       //對 message 設定監聽，接收從 Client 發送的訊息
       ws.on('message', data => {

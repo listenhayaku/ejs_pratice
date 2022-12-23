@@ -13,7 +13,6 @@ const { resolveObjectURL } = require("buffer");
 //mylib
 const mylib = require("./lib/mylib");
 const api = require("./api");
-const communicator = require("./lib/communicator");
 const { emitWarning } = require("process");
 //declare
 //===========================================================================
@@ -37,7 +36,7 @@ function main(){
       async function connect_to_node(){
         q = url.parse(req.url,true).query;
         //const ret = await communicator.main(q.ip,q.port,q.Drone_Block_Input);
-        const ret = await mylib.communicator(q.ip,q.port,q.Drone_Block_Input);
+        const ret = await mylib.communicator(q.ip,q.port,q.Drone_Block_Input,true);
         console.log("(debug)[server.js][main]ret:",ret);
         
       }
@@ -59,7 +58,7 @@ function main(){
       res.render("create_node",{"title":"create_node",});
     }
     else{
-      mylib.get_mysql("INSERT INTO {table} VALUES( "+q.id+",\""+q.ip+"\","+q.port+",\""+q.name+"\",\""+q.description+"\");",function(result){
+      mylib.get_mysql("INSERT INTO {table} VALUES( "+q.id+",\""+q.ip+"\","+q.port+",\""+q.name+"\",\""+q.description+"\",0);",function(result){
         console.log("(debug)[create_node]INSERT sql:"+result);
         if(result == false){
           res.redirect("/Drone_Status");
