@@ -32,7 +32,7 @@ if(s == "/Drone_Status"){
         location.href="/create_node";
     };
 
-    function connect_to_api(){
+    function connect_to_api(data = ""){
         var Drone_Status_Sign = document.querySelectorAll("[id^=\"Drone_Status_Sign_\"");
         var Drone_Block_Input = document.querySelectorAll("[id^=\"Drone_Block_Input_\"");
 
@@ -40,6 +40,7 @@ if(s == "/Drone_Status"){
 
         ws.onopen = () => {
             console.log('open connection');
+            ws.send(data);
         }
         
         ws.onclose = () => {
@@ -73,7 +74,7 @@ if(s == "/Drone_Status"){
             }
         }
     }
-    connect_to_api();
+    connect_to_api("Drone_Status");
 
     //ws.send("Drone_Status");
 }

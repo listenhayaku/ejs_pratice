@@ -5,8 +5,6 @@ import threading
 import time
 import select
 
-
-
 def client_init(ip,port,data):
     client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     client.settimeout(3)
