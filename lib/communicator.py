@@ -53,6 +53,7 @@ try:
     while not(STOP):
         if(param["send"] == "true"):client.send(param["data"].encode("utf-8"))
         client.recv(1024)
+        STOP = True
 except Exception as e:
     print("(debug)[communicator.py][main]e:",e)
 finally:
