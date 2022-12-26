@@ -37,7 +37,7 @@ function main(){
         q = url.parse(req.url,true).query;
         //const ret = await communicator.main(q.ip,q.port,q.Drone_Block_Input);
         const ret = await mylib.communicator(q.ip,q.port,q.Drone_Block_Input,true);
-        console.log("(debug)[server.js][main]ret:",ret);
+        //console.log("(debug)[server.js][main]ret:",ret);
         
       }
       connect_to_node();
