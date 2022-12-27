@@ -18,7 +18,6 @@ function api(target = "Hello") {
 }
 
 if(s == "/Drone_Status"){
-    
     var show_log = document.querySelectorAll("[id^=\"show_log_\"");
     var create_node = document.getElementById("create_node");
 
@@ -75,6 +74,7 @@ if(s == "/Drone_Status"){
         }
     }
     connect_to_api("Drone_Status");
+    //connect_to_api("");
 
     //ws.send("Drone_Status");
 }
@@ -104,6 +104,30 @@ else if(s == "/Chart"){
             var chart = new Chart(ctx, null);  
         }
     };
+
+    function connect_to_api(data = ""){
+        var ws = new WebSocket("ws://"+self.location.hostname+":3000");
+        ws.onopen = () => {
+            console.log("open connection");
+            ws.send(data);
+        }
+        ws.onclose = () => {
+            console.log("close connection");
+        }
+        ws.onmessage = event => {
+            if(event.data instanceof Blob){
+                reader = new FileReader();
+                read.onload = () => {
+                    console.log(reader.result);
+                }
+                reader.readAsText(event.data);
+            }
+            else{
+                console.log(event.data);
+            }
+        }
+    }
+    connect_to_api("Chart");
 }
 else if(s == "/Test"){
     

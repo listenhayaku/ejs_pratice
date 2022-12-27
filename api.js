@@ -26,6 +26,7 @@ exports.api = function(){
       console.log('[api]Client connected')
       let monitorTimer;
       let sendNowTimer;
+      let chartTimer;
 
       //對 message 設定監聽，接收從 Client 發送的訊息
       ws.on('message', data => {
@@ -54,11 +55,20 @@ exports.api = function(){
           mylib.monitor();
           monitorTimer = setInterval(()=>mylib.monitor(),3000);
         }
+        else if(data.toString() == "Chart"){
+          console.log("(debug)[api][ws.on]event message data.toString() == Chart");
+          ws.send("Hello");
+          function Chart(){
+            ws.send("[01,22,2]");
+          }
+          chartTimer = setInterval(Chart,1000);
+        }
       })
 
       ws.on('close', () => {
           clearInterval(sendNowTimer);
           clearInterval(monitorTimer);
+          clearInterval(chartTimer);
           console.log('[api]Close connected')
       })
   })
