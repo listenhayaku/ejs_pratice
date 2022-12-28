@@ -39,10 +39,11 @@ function main(){
     if(q != null){
       async function connect_to_node(){
         q = url.parse(req.url,true).query;
-        //const ret = await communicator.main(q.ip,q.port,q.Drone_Block_Input);
-        const ret = await mylib.communicator(q.ip,q.port,q.Drone_Block_Input,true);
-        //console.log("(debug)[server.js][main]ret:",ret);
-        
+        //console.group("(debug)[server][Drone_Status]");
+        //console.log("start:",new Date());
+        await mylib.communicator(q.ip,q.port,q.Drone_Block_Input,true);
+        //console.log("end:",new Date())
+        //console.groupEnd();
       }
       connect_to_node();
     }
