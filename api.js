@@ -64,10 +64,11 @@ exports.api = function(){
           chartTimer = setInterval(Chart,1000);
         }
         else if(data.toString().includes("pauseButton_onclick")){
-          var info = data.toString().split("\n")[1];
+          var info = JSON.parse(data.toString().split("\n")[1]);
           console.log(info);
+          //console.log(JSON.parse(info));
           console.log("(debug)[api]"+parseInt(data.toString().split(":")[1],10));
-          //mylib.communicator();
+          mylib.communicator(info.ip,info.port,"pause",true);
         }
         else{
           console.log("(debug)[api][ws.on]event mseeage else data:",data.toString());

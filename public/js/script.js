@@ -89,7 +89,6 @@ if(s == "/Drone_Status"){
                 name,
                 description
             }
-            console.log();
             
             ws.send("pauseButton_onclick:"+i+"\n"+JSON.stringify(tempObj));
         }
