@@ -63,6 +63,15 @@ exports.api = function(){
           }
           chartTimer = setInterval(Chart,1000);
         }
+        else if(data.toString().includes("pauseButton_onclick")){
+          var info = data.toString().split("\n")[1];
+          console.log(info);
+          console.log("(debug)[api]"+parseInt(data.toString().split(":")[1],10));
+          //mylib.communicator();
+        }
+        else{
+          console.log("(debug)[api][ws.on]event mseeage else data:",data.toString());
+        }
       })
 
       ws.on('close', () => {

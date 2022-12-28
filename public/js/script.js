@@ -18,19 +18,6 @@ function api(target = "Hello") {
 }
 
 if(s == "/Drone_Status"){
-    var show_log = document.querySelectorAll("[id^=\"show_log_\"");
-    var create_node = document.getElementById("create_node");
-
-    for(let i = 0;i < show_log.length;i++){
-        show_log[i].onclick = function(){
-            location.href="/show_log?"+i;
-        };
-    }
-    
-    create_node.onclick = function(){
-        location.href="/create_node";
-    };
-
     function connect_to_api(data = ""){
         var Drone_Status_Sign = document.querySelectorAll("[id^=\"Drone_Status_Sign_\"");
         var Drone_Block_Input = document.querySelectorAll("[id^=\"Drone_Block_Input_\"");
@@ -72,8 +59,44 @@ if(s == "/Drone_Status"){
                 }
             }
         }
+        return ws;
     }
-    connect_to_api("Drone_Status");
+    var ws = connect_to_api("Drone_Status");
+
+    var show_log = document.querySelectorAll("[id^=\"show_log_\"");
+    var create_node = document.getElementById("create_node");
+    var pauseButton = document.querySelectorAll("[id^=\"pause_\"");
+
+    for(let i = 0;i < show_log.length;i++){
+        show_log[i].onclick = function(){
+            location.href="/show_log?"+i;
+        };
+    };    
+    create_node.onclick = function(){
+        location.href="/create_node";
+    };
+    for(let i = 0;i < pauseButton.length;i++){
+        pauseButton[i].onclick = function(){
+            var id = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=id]").value;
+            var ip = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=ip]").value;
+            var port = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=port]").value;
+            var name = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=name]").value;
+            var description = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=description]").value;
+            var tempObj = {
+                id,
+                ip,
+                port,
+                name,
+                description
+            }
+            console.log();
+            
+            ws.send("pauseButton_onclick:"+i+"\n"+JSON.stringify(tempObj));
+        }
+    };
+
+
+
     //connect_to_api("");
 
     //ws.send("Drone_Status");
