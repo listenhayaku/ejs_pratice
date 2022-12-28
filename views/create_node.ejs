@@ -1,7 +1,7 @@
 <% layout("layout") %>
 
 <div class="parent_of_center">
-    <form action="" method="get">
+    <form action="create_node" method="post">
         <table class="center" id="create_node_table">
             <tbody>
                 <tr>
@@ -9,7 +9,7 @@
                         id:
                     </td>
                     <td>
-                        <input type="text" name="id">
+                        <input type="text" name="id" required pattern="\d+" oninput = "value=value.replace(/[^\d]/g,'')">
                     </td>
                 </tr>
                 <tr>
@@ -17,7 +17,9 @@
                         ip:
                     </td>
                     <td>
-                        <input type="text" name="ip">
+                        <input type="text" name="ip" required pattern='\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b'>
+                        <!--表達式來源-->
+                        <!--https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp-->
                     </td>
                 </tr>
                 <tr>
@@ -25,7 +27,7 @@
                         port:
                     </td>
                     <td>
-                        <input type="text" name="port">
+                        <input type="text" name="port" required="\d+" oninput = "value=value.replace(/[^\d]/g,'')">
                     </td>
                 </tr>
                 <tr>
@@ -33,7 +35,7 @@
                         name:
                     </td>
                     <td>
-                        <input type="text" name="name">
+                        <input type="text" name="name" required pattern='[^"]+' oninput = 'value=value.replace(/\"/g,"")'>
                     </td>
                 </tr>
                 <tr>
@@ -41,7 +43,7 @@
                         description:
                     </td>
                     <td>
-                        <input type="text" name="description">
+                        <input type="text" name="description" pattern='[^"]+' oninput = 'value=value.replace(/\"/g,"")'>
                     </td>
                 </tr>  
             </tbody>

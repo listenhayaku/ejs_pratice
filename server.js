@@ -14,6 +14,8 @@ const { resolveObjectURL } = require("buffer");
 const mylib = require("./lib/mylib");
 const api = require("./api");
 const { emitWarning } = require("process");
+const { render } = require("ejs");
+const { post } = require("jquery");
 //declare
 //===========================================================================
 //global
@@ -26,6 +28,8 @@ function main(){
   // 用 EJS 引擎跑模板
   app.set("view engine", "ejs");
   app.use('/static', express.static(__dirname + '/public'));
+  app.use(express.json());
+  app.use(express.urlencoded({extended:true}));
 
   app.get("/", (req, res) => {
       res.render("index",{"title":"Home","description":"test description"});
@@ -50,23 +54,82 @@ function main(){
     res.render("Chart",{"title":"Chart","test":87,});
   });
   app.get("/Test", (req, res) => {
-    res.render("index",{"title":"Home","description":"test description"});
+    res.render("Test",{"title":"Home","description":"test description"});
   });
   app.get("/create_node", (req, res) => {
-    var q = url.parse(req.url,true).query;
-    if(q.id == undefined || q.id == "" || q.ip == undefined || q.ip == "" || q.port == undefined || q.port == "" || q.name == undefined || q.name == "" || q.description == undefined || q.description == ""){
+    console.log("(debug)[server.js][create_node.get]");
+    res.render("create_node",{"title":"create_node",});
+    /*
+    var s = url.parse(req.url,true).search;
+    if(s == undefined){
       res.render("create_node",{"title":"create_node",});
     }
+    /*
     else{
-      mylib.get_mysql("INSERT INTO {table} VALUES( "+q.id+",\""+q.ip+"\","+q.port+",\""+q.name+"\",\""+q.description+"\",0);",function(result){
-        console.log("(debug)[create_node]INSERT sql:"+result);
+      var q = url.parse(req.url,true).query;
+      if(false){
+
+      }
+      else{
+        q.id = parseInt(q.id,10);
+        q.port = parseInt(q.port,10);
+        //if(isNaN(q.id) || isNaN(q.port)) res.render("create_node",{"title":"create_node",});
+        var sql = "INSERT INTO {table} VALUES( "+q.id+",\""+q.ip+"\","+q.port+",\""+q.name+"\",\""+q.description+"\",0);";
+        console.group("(debug)[server.js][create_node]");
+        console.log("sql:",sql);
+        console.log("q.port:",q.port,isNaN(q.port));
+        console.groupEnd();
+        mylib.get_mysql(sql,function(result){
+          console.log("(debug)[create_node]INSERT sql:"+result);
+          if(result == false){
+            //res.redirect("/Drone_Status");
+            res.render("create_node",{"title":"create_node",});
+          }
+          else{
+            res.redirect("/Drone_Status");
+          }
+        });     
+      }    
+    }
+    */
+  });
+  app.post("/create_node", (req, res) => {
+    /*
+    console.group("(debug)[server.js][create_node.post]");
+    console.log(req.body.id);
+    console.log(req.body.ip);
+    console.log(req.body.port);
+    console.log(req.body.name);
+    console.log(req.body.description);
+    console.groupEnd();
+    */
+
+    var id = parseInt(req.body.id,10);
+    var ip = req.body.ip;
+    var port = parseInt(req.body.port,10);
+    var name = req.body.name;
+    var description = req.body.description;
+    var postObj = {
+      id,
+      ip,
+      port,
+      name,
+      description
+    }
+    //console.log("(debug)[server.js][create_node.post]postobj.length:");
+    //parseInt到無法轉換的字串也會便NaN
+    if(isNaN(postObj.id) || isNaN(postObj.port) || ip == "" || ip.includes("\"") || name == "" || name.includes("\"") || description.includes("\"")) res.redirect("/create_node");
+    else{
+      var sql = "INSERT INTO {table} VALUES( "+postObj.id+",\""+postObj.ip+"\","+postObj.port+",\""+postObj.name+"\",\""+postObj.description+"\",0);";
+      console.log(sql);
+      mylib.get_mysql(sql,function(result){
         if(result == false){
-          res.redirect("/Drone_Status");
+          res.render("create_node",{"title":"create_node",});
         }
         else{
           res.redirect("/Drone_Status");
         }
-      });     
+      });
     }
   });
   app.get("/show_log",(req ,res) => {

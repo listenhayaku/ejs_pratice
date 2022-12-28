@@ -32,7 +32,7 @@ exports.api = function(){
       ws.on('message', data => {
         //console.log("(debug)[api][ws.on]message event data:",data.toString());
         if(data.toString() == "Drone_Status"){
-          console.log("(debug)[api][ws.on]event message data.toString() == Drone_Status");
+          //console.log("(debug)[api][ws.on]event message data.toString() == Drone_Status");
           let clients = wss.clients;
 
           clients.forEach(client => {
@@ -56,7 +56,7 @@ exports.api = function(){
           monitorTimer = setInterval(()=>mylib.monitor(),3000);
         }
         else if(data.toString() == "Chart"){
-          console.log("(debug)[api][ws.on]event message data.toString() == Chart");
+          //console.log("(debug)[api][ws.on]event message data.toString() == Chart");
           ws.send("Hello");
           function Chart(){
             ws.send("[01,22,2]");
