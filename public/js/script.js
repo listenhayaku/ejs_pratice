@@ -18,6 +18,19 @@ function api(target = "Hello") {
 }
 
 if(s == "/Drone_Status"){
+    function change_encode(type,id){
+        console.log("(debug)[script.js][test]start",type);
+        var drop_down_menu_list = document.querySelectorAll("[id=Drone_Block_"+id+"] form .drop_down_menu_list ul li a");
+        var submitButton = document.querySelector("[id=Drone_Block_"+id+"] form input[type=submit]");
+        var temp = submitButton.value;
+        submitButton.value = type;
+        for(var i = 0;i < drop_down_menu_list.length;i++){
+            if(drop_down_menu_list[i].textContent == type){
+                drop_down_menu_list[i].textContent = temp;
+                drop_down_menu_list[i].href="javascript:change_encode('"+temp+"',"+id+")";
+            }
+        }
+    }
     function connect_to_api(data = ""){
         var Drone_Status_Sign = document.querySelectorAll("[id^=\"Drone_Status_Sign_\"");
         var Drone_Block_Input = document.querySelectorAll("[id^=\"Drone_Block_Input_\"");

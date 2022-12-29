@@ -28,18 +28,18 @@
                 <input name="ip" value="<%=result[i]["ip"]%>" style="display:none;">
                 <input name="port" value="<%=result[i]["port"]%>" style="display:none;">
                 <input name="name" value="<%=result[i]["name"]%>" style="display:none;">
-
                 
                 <input type="text" name="Drone_Block_Input" id="Drone_Block_Input_<%=i%>">
-                <input type="submit">
+                <input type="submit" value="ascii">
                 <button class="drop_down_menu"><img src="/static/img/drop-down-arrow.png"></button>
-                <div class="drop_down_menu_list" style="display: block; height: 2rem;color: #000;z-index: 999;">
+                
+                <div class="drop_down_menu_list">
                     <ul>
                         <li>
-                            <button>ascii</button>
+                            <a href="javascript:change_encode('b64',<%=i%>)">b64</a>
                         </li>
                         <li>
-                            <button>hex</button>
+                            <a href="javascript:change_encode('hex',<%=i%>)">hex</a>
                         </li>
                     </ul>
                 </div>
