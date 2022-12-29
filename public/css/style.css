@@ -5,6 +5,7 @@
     color: #000000;
     white-space: unset;
     line-height: 1;
+    box-sizing: content-box;
 }
 
 html{
@@ -155,14 +156,68 @@ h1.center.title{
     box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.2);
 }
 
-.Drone_Block .top{
+.Drone_Block > .top{
     padding-left: 8px;
     padding-right: 8px;
+    width: calc(100% - 16px);
 }
+ 
+
 
 .Drone_Block .top form{
+    width: 100%;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    position: relative;
+    white-space: unset;
+    font-size: 0px;
+}
+
+.Drone_Block .top form input[type=text]{
+    width: calc(100% - 62px);   /*62 = 13.33*3 + 8 * 3 (border+padding) - 2 * 3 - 3(drop down no left border) +3(right margin) + 4(text border)*/
     display: inline-block;
-    margin: 3px;
+    margin-right: 3px;
+}
+
+.Drone_Block .top form input[type=submit]{
+    display: inline-block;
+    padding-right: calc(13.333px + 6px);
+    
+}
+
+
+.Drone_Block .top form button.drop_down_menu{
+    position: absolute;
+    /*top: -25.333px;*/
+    right: 0px;
+    height: 13.333px;
+    padding-left: 0px;
+    border-left: none;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    box-shadow: none;
+}
+
+.Drone_Block .top form button.drop_down_menu:active{
+    background-color: aqua;
+}
+
+.Drone_Block .top form button.drop_down_menu img{
+    height: 0.5rem;
+    width: 0.5rem;
+    display: inline-block;
+}
+
+.Drone_Block .top form .drop_down_menu_list{
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+}
+
+.Drone_Block .top form .drop_down_menu_list button{
+    border: none;
+    border-radius: unset;
+    background-color: #fff;
 }
 
 .Drone_Block .left{
@@ -238,7 +293,7 @@ input[type=submit]:hover{
     border-width: 5px;
     font-size: 1.5rem;
     min-width: calc(3.6rem + 6px);
-    height: 5vh;
+    height: 7vh;
     width: 5vw;
     margin-top: 5vh;
     float: right;

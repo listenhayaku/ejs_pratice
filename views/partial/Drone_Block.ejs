@@ -29,9 +29,20 @@
                 <input name="port" value="<%=result[i]["port"]%>" style="display:none;">
                 <input name="name" value="<%=result[i]["name"]%>" style="display:none;">
 
-
+                
                 <input type="text" name="Drone_Block_Input" id="Drone_Block_Input_<%=i%>">
                 <input type="submit">
+                <button class="drop_down_menu"><img src="/static/img/drop-down-arrow.png"></button>
+                <div class="drop_down_menu_list" style="display: block; height: 2rem;color: #000;z-index: 999;">
+                    <ul>
+                        <li>
+                            <button>ascii</button>
+                        </li>
+                        <li>
+                            <button>hex</button>
+                        </li>
+                    </ul>
+                </div>
             </form>
             <button id="show_log_<%=i%>">show log</button>    
             <button id="detail_info_<%=i%>">detail info</button>    

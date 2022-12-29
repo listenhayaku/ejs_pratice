@@ -67,7 +67,7 @@ exports.api = function(){
           var info = JSON.parse(data.toString().split("\n")[1]);
           //console.log(info);
           //console.log(JSON.parse(info));
-          console.log("(debug)[api]"+parseInt(data.toString().split(":")[1],10));
+          //console.log("(debug)[api]"+parseInt(data.toString().split(":")[1],10));
           mylib.communicator(info.ip,info.port,"pause",true);
         }
         else{
