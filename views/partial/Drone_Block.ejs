@@ -31,7 +31,7 @@
                 
                 <input type="text" name="Drone_Block_Input" id="Drone_Block_Input_<%=i%>">
                 <input type="submit" value="ascii">
-                <button class="drop_down_menu"><img src="/static/img/drop-down-arrow.png"></button>
+                <button type="button" class="drop_down_menu"><img src="/static/img/drop-down-arrow.png"></button>
                 
                 <div class="drop_down_menu_list">
                     <ul>
@@ -46,7 +46,7 @@
             </form>
             <button id="show_log_<%=i%>">show log</button>    
             <button id="detail_info_<%=i%>">detail info</button>    
-            <button id="pause_<%=i%>">pause</button>    
+            <button id="pause_<%=i%>" style="display: none;">pause</button>    
         </div>
     </div>	
 <%}%>

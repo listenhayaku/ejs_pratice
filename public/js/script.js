@@ -1,3 +1,5 @@
+//const { get } = require("jquery");
+
 let s = location.pathname;
 
 
@@ -34,6 +36,7 @@ if(s == "/Drone_Status"){
     function connect_to_api(data = ""){
         var Drone_Status_Sign = document.querySelectorAll("[id^=\"Drone_Status_Sign_\"");
         var Drone_Block_Input = document.querySelectorAll("[id^=\"Drone_Block_Input_\"");
+    
 
         var ws = new WebSocket('ws://'+self.location.hostname+":3000");
 
@@ -56,18 +59,20 @@ if(s == "/Drone_Status"){
                 reader.readAsText(event.data);
             }
             else{
-                console.log("(debug)[onmessage]not blob:"+event.data);
+                //console.log("(debug)[onmessage]not blob:"+event.data);
                 var Drone_Status = JSON.parse(event.data);
                 for(var i = 0;i < Drone_Status.length;i++){
                     if(Drone_Status[i]["status"] == 1){
                         Drone_Status_Sign[i].textContent="online";
                         Drone_Status_Sign[i].id="Drone_Status_Sign_Online_"+i;
                         Drone_Block_Input[i].disabled="";
+                        document.getElementById("pause_"+i).style="";
                     }
                     else{
                         Drone_Status_Sign[i].textContent="offline";
                         Drone_Status_Sign[i].id="Drone_Status_Sign_Offline_"+i;
                         Drone_Block_Input[i].disabled="disabled";
+                        document.getElementById("pause_"+i).style="display: none;";
                     }
                 }
             }
@@ -106,8 +111,6 @@ if(s == "/Drone_Status"){
             ws.send("pauseButton_onclick:"+i+"\n"+JSON.stringify(tempObj));
         }
     };
-
-
 
     //connect_to_api("");
 
