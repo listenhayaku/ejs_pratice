@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="top">
-            <form action="">
+            <form action="" method="POST">
                 <!--太土砲了，以後看看有更好的辦法-->
                 <input name="id" value="<%=result[i]["id"]%>" style="display:none;">
                 <input name="description" value="<%=result[i]["description"]%>" style="display:none;">
@@ -30,7 +30,7 @@
                 <input name="name" value="<%=result[i]["name"]%>" style="display:none;">
                 
                 <input type="text" name="Drone_Block_Input" id="Drone_Block_Input_<%=i%>">
-                <input type="submit" value="ascii">
+                <input type="button" value="ascii">
                 <button type="button" class="drop_down_menu"><img src="/static/img/drop-down-arrow.png"></button>
                 
                 <div class="drop_down_menu_list">

@@ -183,7 +183,12 @@ h1.center.title{
 .Drone_Block .top form input[type=submit]{
     display: inline-block;
     padding-right: calc(13.333px + 6px);
-    
+}
+
+/*i didn't use Groups of selector (.Drone_Block .top form input[type=submit],input[type=button]) because padding-right of here will be applied before padding of input[type=submit],input[type=button] below this line*/
+.Drone_Block .top form input[type=button]{
+    display: inline-block;
+    padding-right: calc(13.333px + 6px);
 }
 
 
@@ -260,7 +265,7 @@ h1.center.title{
 }
 
 /*.Drone_Block .top input[type=submit]{*/
-input[type=submit]{
+input[type=submit],input[type=button]{
     background-color: var(--drone-primary-color-4);
     color: var(--drone-font-color-2);
     border: var(--drone-primary-color-6) solid 3px;
@@ -271,7 +276,7 @@ input[type=submit]{
 
 
 /*.Drone_Block .top input[type=submit]:hover{*/
-input[type=submit]:hover{
+input[type=submit],input[type=button]:hover{
     background-color: var(--drone-primary-color-4-hover);
     cursor: pointer;
 }

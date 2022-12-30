@@ -51,6 +51,11 @@ function main(){
       res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
     });
   });
+  app.post("/Drone_Status", (req, res) => {
+    console.log("(debug)[server.js][Drone_Status.post]req.body",req.body);
+    if(req.body.Drone_Block_Input != undefined) mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
+    res.redirect("/Drone_Status");
+  });
   app.get("/Chart", (req, res) => {
     res.render("Chart",{"title":"Chart","test":87,});
   });

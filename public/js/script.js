@@ -19,6 +19,22 @@ function api(target = "Hello") {
     return scoreresult;
 }
 
+function post(url,data){
+    var retResult;    //變數明是直接抄學長mvc的
+    var options = {
+        type: "POST",
+        url: url,
+        data: data,
+        async: false,
+        success: function (result) {
+            retResult = result;
+        },
+        error:function(err){console.log(err)}
+    };
+    $.ajax(options);
+    return retResult
+}
+
 if(s == "/Drone_Status"){
     function change_encode(type,id){
         console.log("(debug)[script.js][test]start",type);
@@ -84,15 +100,35 @@ if(s == "/Drone_Status"){
     var show_log = document.querySelectorAll("[id^=\"show_log_\"");
     var create_node = document.getElementById("create_node");
     var pauseButton = document.querySelectorAll("[id^=\"pause_\"");
+    var submitButton = document.querySelectorAll("[id^=Drone_Block_] form input[type=button]");
 
     for(let i = 0;i < show_log.length;i++){
         show_log[i].onclick = function(){
             location.href="/show_log?"+i;
         };
     };    
+    for(let i = 0;i < submitButton.length;i++){
+        submitButton[i].onclick = function(){
+            console.log("test");
+            id = document.querySelector("[id=Drone_Block_"+i+"] form [name=id]").value;
+            ip = document.querySelector("[id=Drone_Block_"+i+"] form [name=ip]").value;
+            port = document.querySelector("[id=Drone_Block_"+i+"] form [name=port]").value;
+            name = document.querySelector("[id=Drone_Block_"+i+"] form [name=name]").value;
+            description = document.querySelector("[id=Drone_Block_"+i+"] form [name=description]").value;
+            var tempObj = {
+                id,
+                ip,
+                port,
+                name,
+                description
+            }
+            post("Drone_Status",tempObj);
+        };
+    };
     create_node.onclick = function(){
         location.href="/create_node";
     };
+    /*  //i modified the query to post,this will be invalid now
     for(let i = 0;i < pauseButton.length;i++){
         pauseButton[i].onclick = function(){
             var id = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=id]").value;
@@ -110,7 +146,7 @@ if(s == "/Drone_Status"){
             
             ws.send("pauseButton_onclick:"+i+"\n"+JSON.stringify(tempObj));
         }
-    };
+    };*/
 
     //connect_to_api("");
 
