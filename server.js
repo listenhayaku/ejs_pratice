@@ -53,7 +53,8 @@ function main(){
   });
   app.post("/Drone_Status", (req, res) => {
     console.log("(debug)[server.js][Drone_Status.post]req.body",req.body);
-    if(req.body.Drone_Block_Input != undefined) mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
+    if(req.body.Drone_Block_Input != undefined && req.body.Drone_Block_Input != "" ) mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
+    else console.log("(deubg)[server.js]Drone_Status.post]Drone_Block_Input no input");
     res.redirect("/Drone_Status");
   });
   app.get("/Chart", (req, res) => {

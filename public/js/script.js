@@ -39,7 +39,7 @@ if(s == "/Drone_Status"){
     function change_encode(type,id){
         console.log("(debug)[script.js][test]start",type);
         var drop_down_menu_list = document.querySelectorAll("[id=Drone_Block_"+id+"] form .drop_down_menu_list ul li a");
-        var submitButton = document.querySelector("[id=Drone_Block_"+id+"] form input[type=submit]");
+        var submitButton = document.querySelector("[id=Drone_Block_"+id+"] form input[type=button]");
         var temp = submitButton.value;
         submitButton.value = type;
         for(var i = 0;i < drop_down_menu_list.length;i++){
@@ -115,20 +115,23 @@ if(s == "/Drone_Status"){
             port = document.querySelector("[id=Drone_Block_"+i+"] form [name=port]").value;
             name = document.querySelector("[id=Drone_Block_"+i+"] form [name=name]").value;
             description = document.querySelector("[id=Drone_Block_"+i+"] form [name=description]").value;
+            Drone_Block_Input = document.getElementById("Drone_Block_Input_"+i).value;
+            document.getElementById("Drone_Block_Input_"+i).value = null;
             var tempObj = {
                 id,
                 ip,
                 port,
                 name,
-                description
+                description,
+                Drone_Block_Input
             }
-            post("Drone_Status",tempObj);
+            if(document.getElementById("Drone_Block_Input_"+i).disabled != true) post("Drone_Status",tempObj);
         };
     };
     create_node.onclick = function(){
         location.href="/create_node";
     };
-    /*  //i modified the query to post,this will be invalid now
+      //i modified the query to post,this will be invalid now
     for(let i = 0;i < pauseButton.length;i++){
         pauseButton[i].onclick = function(){
             var id = document.querySelector("[id=Drone_Block_"+i+"] .top form input[name=id]").value;
@@ -143,10 +146,9 @@ if(s == "/Drone_Status"){
                 name,
                 description
             }
-            
             ws.send("pauseButton_onclick:"+i+"\n"+JSON.stringify(tempObj));
         }
-    };*/
+    };
 
     //connect_to_api("");
 
