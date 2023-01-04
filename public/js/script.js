@@ -116,6 +116,7 @@ if(s == "/Drone_Status"){
             name = document.querySelector("[id=Drone_Block_"+i+"] form [name=name]").value;
             description = document.querySelector("[id=Drone_Block_"+i+"] form [name=description]").value;
             Drone_Block_Input = document.getElementById("Drone_Block_Input_"+i).value;
+            type = submitButton[i].value;
             document.getElementById("Drone_Block_Input_"+i).value = null;
             var tempObj = {
                 id,
@@ -123,7 +124,8 @@ if(s == "/Drone_Status"){
                 port,
                 name,
                 description,
-                Drone_Block_Input
+                Drone_Block_Input,
+                type
             }
             if(document.getElementById("Drone_Block_Input_"+i).disabled != true) post("Drone_Status",tempObj);
         };

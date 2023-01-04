@@ -53,8 +53,30 @@ function main(){
   });
   app.post("/Drone_Status", (req, res) => {
     console.log("(debug)[server.js][Drone_Status.post]req.body",req.body);
-    if(req.body.Drone_Block_Input != undefined && req.body.Drone_Block_Input != "" ) mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
-    else console.log("(deubg)[server.js]Drone_Status.post]Drone_Block_Input no input");
+
+    if(req.body.Drone_Block_Input != undefined && req.body.Drone_Block_Input != "" && req.body.type != undefined && req.body.type != ""){
+      if(req.body.type == "ascii"){
+        mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
+      }
+      else if(req.body.type == "hex"){
+        function parseHexString(str){ 
+          var result = [];
+          while (str.length >= 2) { 
+              result.push(parseInt(str.substring(0, 2), 16));
+              str = str.substring(2, str.length);
+          }
+          var buffer = Buffer.from(result);
+          return buffer;
+        }
+        var temp = parseHexString(req.body.Drone_Block_Input);
+        
+        mylib.communicator(req.body.ip,req.body.port,temp,false);
+      }
+
+
+      //mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
+
+    }else console.log("(deubg)[server.js]Drone_Status.post]Drone_Block_Input no input or no type");
     res.redirect("/Drone_Status");
   });
   app.get("/Chart", (req, res) => {

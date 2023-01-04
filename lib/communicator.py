@@ -31,11 +31,13 @@ def inputFunc(client):
             pass
         while len(dataQueue) > 0:
             tempStr = str(dataQueue.pop())
+            print("(debug)[communicator.py][inputFunc]tempStr:",tempStr)
             client.send(tempStr.encode("utf-8"))
             time.sleep(1)
         #print("(debug)[communicator.py][[testFunc]dataQueue:",dataQueue)
         #大感謝這個方法使input可以被中斷出來檢查flag是否轉為停止
         #https://stackoverflow.com/questions/1335507/keyboard-input-with-timeout -Pontus
+
 
 
 STOP = False
