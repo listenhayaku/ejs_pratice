@@ -7,7 +7,7 @@ import select
 
 def client_init(ip,port,data):
     client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    client.settimeout(3)
+    client.settimeout(2)
     client.connect((ip,port))
     client.settimeout(None)
     client.setblocking(True)
@@ -26,13 +26,13 @@ def inputFunc(client):
     while not(STOP):
         i, o, e = select.select( [sys.stdin], [], [], 1)
         if (i):
-            dataQueue.append(sys.stdin.readline().strip())
+            dataQueue.append(sys.stdin.buffer.readline().strip())
         else:
             pass
         while len(dataQueue) > 0:
-            tempStr = str(dataQueue.pop())
+            tempStr = bytes(dataQueue.pop())
             print("(debug)[communicator.py][inputFunc]tempStr:",tempStr)
-            client.send(tempStr.encode("utf-8"))
+            client.send(tempStr)
             time.sleep(1)
         #print("(debug)[communicator.py][[testFunc]dataQueue:",dataQueue)
         #大感謝這個方法使input可以被中斷出來檢查flag是否轉為停止

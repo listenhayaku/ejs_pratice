@@ -72,6 +72,9 @@ function main(){
         
         mylib.communicator(req.body.ip,req.body.port,temp,false);
       }
+      else if(req.body.type == "b64"){
+        console.log("(debug)[server.js]b64 function is developing");
+      }
 
 
       //mylib.communicator(req.body.ip,req.body.port,req.body.Drone_Block_Input,false);
