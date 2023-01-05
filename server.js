@@ -174,6 +174,9 @@ function main(){
       res.render("show_log",{"title":"show log","number":number,})
     }
   });
+  app.get("/login", (req, res) => {
+    res.render("login",{"title":"login",});
+  });
   //api
   app.get("/Ajax",(req,res) =>{
     var q = url.parse(req.url,true);

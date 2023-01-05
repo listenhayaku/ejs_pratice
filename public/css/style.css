@@ -105,6 +105,7 @@ h1.center.title{
 .navbar{
     background-color: var(--drone-navbar-color-1);
     width: 10%;
+    min-width: calc(8 * 0.8rem);
     top: 0;
     bottom: 0;
     position: relative;
@@ -118,7 +119,7 @@ h1.center.title{
 .navbar li a{
     font-size: 1rem;
     display: block;
-    padding: 1vw;
+    padding: 0.5rem;
     color: var(--drone-font-color-2);
 }
 
