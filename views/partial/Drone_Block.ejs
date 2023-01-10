@@ -45,7 +45,16 @@
                 </div>
             </form>
             <button id="show_log_<%=i%>">show log</button>    
-            <button id="detail_info_<%=i%>">detail info</button>    
+            <div id="detail_info_<%=i%>" style="display: inline-block;">
+                <button id="detail_infoButton_<%=i%>">detail info</button>
+                <div id="detail_infoFrame_<%=i%>" class="block hiddenAni">
+                    <button>test1</button>
+                    <button>test2</button>
+                    <button>test3</button>
+                    <p>請選擇資訊</p>
+                </div>
+            </div>
+            
             <button id="pause_<%=i%>" style="display: none;">pause</button>    
         </div>
     </div>	

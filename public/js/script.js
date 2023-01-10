@@ -101,6 +101,7 @@ if(s == "/Drone_Status"){
     var create_node = document.getElementById("create_node");
     var pauseButton = document.querySelectorAll("[id^=\"pause_\"");
     var submitButton = document.querySelectorAll("[id^=Drone_Block_] form input[type=button]");
+    var detailButton = document.querySelectorAll("[id^=detail_infoButton_]");
 
     for(let i = 0;i < show_log.length;i++){
         show_log[i].onclick = function(){
@@ -151,6 +152,16 @@ if(s == "/Drone_Status"){
             ws.send("pauseButton_onclick:"+i+"\n"+JSON.stringify(tempObj));
         }
     };
+    for(let i = 0;i < detailButton.length;i++){
+        detailButton[i].onclick = function(){
+            if(!document.querySelector("[id^=detail_infoFrame_"+i+"]").classList.toString().includes("showAni")){
+                document.querySelector("[id^=detail_infoFrame_"+i+"]").classList.add("showAni");
+            }
+            else{
+                document.querySelector("[id^=detail_infoFrame_"+i+"]").classList.remove("showAni");
+            }
+        }
+    }
 
     //connect_to_api("");
 
