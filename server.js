@@ -184,15 +184,15 @@ function main(){
     console.log("(debug)[server.js][login.post]req.body:",req.body);
     mylib.get_mysql("SELECT * FROM project.user_info",function(result){
       console.log(result);
-      console.log(result.length);
 
       for(var i = 0;i < result.length;i++){
-        if(result[i].account == req.body.account && result[i].password == req.body.password){
+        if(result[i].username == req.body.username && result[i].password == req.body.password){
           console.log("login successful");
           res.cookie("test",123);
           res.redirect("/");
         }
         else{
+          console.log("(debug)[server][login.post]login fail");
           res.clearCookie("test");
           res.redirect("/login"); 
         }

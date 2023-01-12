@@ -1,0 +1,74 @@
+*{
+    line-height: 1;
+    box-sizing: content-box;
+    padding: unset;
+    margin: unset;
+    white-space: unset;
+    font-size: 48px;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+    font-family: monospace;
+    
+}
+
+body{
+    background-color: var(--drone-primary-color-4);
+}
+
+label{
+    display: block;
+    margin-top: 0.5rem;
+}
+
+form{
+    padding: 0.75rem;
+    background-color: rgba(255,255,255, 0.15);
+}
+
+input[type=text],input[type=password]{
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+}
+
+input{
+    padding-left: 0.25rem;
+}
+
+button{
+    background-color: var(--drone-primary-color-6);
+    margin-top: 0.5rem;
+    border: none;
+    width: calc(100%);
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    border-radius: 0.1rem;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.parent_of_center{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+    align-items: center;  
+}
+
+.primeStyleBorder{
+    border:white solid 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.15rem 0.15rem 0.25rem 0.2rem rgba(0, 0, 0, 0.2);
+}
+
+.whiteBorder{
+    border-color: white;
+}
+
+.mid{
+    text-align: center;
+}

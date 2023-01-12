@@ -5,26 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/color.css">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <!--<link rel="stylesheet" href="/static/css/style.css">-->
+    <link rel="stylesheet" href="/static/css/login.css">
     <title>Document</title>
 </head>
-<body class="parent_of_center" style="background-color: unset;">
+<body id="login" class="parent_of_center">
     <div>
-        <div style="text-align: center;margin-bottom: 2rem;">
-            <p>login</p>
-        </div>
-       
         <form id="loginForm" action="" method="POST" class="primeStyleBorder">
-            <p>
-                Account
-            </p>
-            <input name="account" type="text">
-            <p>
+            <div class="mid">
+                <p>Login</p>
+            </div>
+            <label>
+                Username
+            </label>
+            <input name="username" placeholder="username" type="text">
+            <label>
                 Password
-            </p>
-            <input name = "password" type="password">
+            </label>
+            <input name = "password" placeholder="password" type="password">
             <br>
-            <button>submit</button>
+            <button>login</button>
         </form>   
             
     </div>
