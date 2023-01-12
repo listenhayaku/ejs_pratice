@@ -219,7 +219,7 @@ function main(){
             "password":hash_password
           }
           console.log("login successful");
-          res.cookie("token",jwt.sign(payload,"testsecret",{expiresIn: 30}));
+          res.cookie("token",jwt.sign(payload,"testsecret",{expiresIn: 60*60}));
           res.redirect("/");
         }
         else{
