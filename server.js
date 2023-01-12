@@ -3,6 +3,7 @@
 const url = require("url");
 const fs = require("fs");
 const child_process = require("child_process");
+const jwt = require("jsonwebtoken");
 // EJS 核心
 const express = require("express");
 const engine = require("ejs-locals");
@@ -17,6 +18,7 @@ const api = require("./api");
 const { emitWarning } = require("process");
 const { render } = require("ejs");
 const { post } = require("jquery");
+const { decode } = require("punycode");
 //declare
 //===========================================================================
 //global
@@ -33,6 +35,33 @@ function main(){
   app.use(express.urlencoded({extended:true}));
   app.use(cookieParser());
 
+  app.get("*",(req, res ,next) => {
+    //console.log(mylib.sha256("admin"));
+    function verify_fail(){
+      console.log("verify fail1");
+      res.redirect("/login");
+    }
+    if(req.url != "/login"){
+      var token = jwt.verify(req.cookies.token,"testsecret",function(err,result){return result});
+
+      if(token != undefined){
+        mylib.get_mysql("select * from project.user_info where user_id="+token.id+";",function(result){
+          if(result[0].password == token.password){ //result[0] cause id number is unique
+            var now = Math.floor(Date.now()/1000);  //https://stackoverflow.com/questions/13242828/javascript-gettime-to-10-digits-only
+            if(now < token.exp) next(); //check token exp
+            else verify_fail();
+          }
+          else{
+            verify_fail();
+          }
+        });
+      }
+      else{
+        verify_fail();
+      }
+    }
+    else next();
+  });
   app.get("/", (req, res) => {
       res.render("index",{"title":"Home","description":"test description"});
   });
@@ -177,18 +206,20 @@ function main(){
     }
   });
   app.get("/login", (req, res) => {
-    console.log("(debug)[server][login.get]cookies",req.cookies);
+    res.clearCookie("token");
     res.render("login",{"title":"login",});
   });
   app.post("/login", (req, res) => {
-    console.log("(debug)[server.js][login.post]req.body:",req.body);
     mylib.get_mysql("SELECT * FROM project.user_info",function(result){
-      console.log(result);
-
       for(var i = 0;i < result.length;i++){
-        if(result[i].username == req.body.username && result[i].password == req.body.password){
+        var hash_password = mylib.sha256(req.body.password);
+        if(result[i].username == req.body.username && result[i].password == hash_password){
+          var payload = {
+            "id":i,
+            "password":hash_password
+          }
           console.log("login successful");
-          res.cookie("test",123);
+          res.cookie("token",jwt.sign(payload,"testsecret",{expiresIn: 30}));
           res.redirect("/");
         }
         else{
