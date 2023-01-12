@@ -6,6 +6,7 @@ const child_process = require("child_process");
 // EJS 核心
 const express = require("express");
 const engine = require("ejs-locals");
+const cookieParser = require("cookie-parser");
 app = express();
 app.engine("ejs", engine);
 //mysql
@@ -30,6 +31,7 @@ function main(){
   app.use('/static', express.static(__dirname + '/public'));
   app.use(express.json());
   app.use(express.urlencoded({extended:true}));
+  app.use(cookieParser());
 
   app.get("/", (req, res) => {
       res.render("index",{"title":"Home","description":"test description"});
@@ -175,7 +177,27 @@ function main(){
     }
   });
   app.get("/login", (req, res) => {
+    console.log("(debug)[server][login.get]cookies",req.cookies);
     res.render("login",{"title":"login",});
+  });
+  app.post("/login", (req, res) => {
+    console.log("(debug)[server.js][login.post]req.body:",req.body);
+    mylib.get_mysql("SELECT * FROM project.user_info",function(result){
+      console.log(result);
+      console.log(result.length);
+
+      for(var i = 0;i < result.length;i++){
+        if(result[i].account == req.body.account && result[i].password == req.body.password){
+          console.log("login successful");
+          res.cookie("test",123);
+          res.redirect("/");
+        }
+        else{
+          res.clearCookie("test");
+          res.redirect("/login"); 
+        }
+      }
+    });
   });
   //api
   app.get("/Ajax",(req,res) =>{

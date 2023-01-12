@@ -77,7 +77,7 @@ iframe{
     width: 100%;
     display: flex;
     justify-content: center;    
-    align-items: center;      
+    align-items: center;  
 }
 
 
@@ -273,6 +273,12 @@ h1.center.title{
     background-color: var(--drone-primary-color-);
 }
 
+.primeStyleBorder{
+    border: #fff solid 0.2rem;
+    border-radius: 0.25rem;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+
 /*.Drone_Block .top input[type=submit]{*/
 input[type=submit],input[type=button]{
     background-color: var(--drone-primary-color-4);
@@ -337,6 +343,13 @@ input[type=submit],input[type=button]:hover{
     float: right;
 }
 
+#loginForm{
+    padding: 1rem;
+}
+
+#loginForm input[type=text],input[type=password]{
+    margin-bottom: 1rem;
+}
 
 [id^="Drone_Status_Sign_Offline_"]::before{
     display: inline-block;
@@ -375,9 +388,7 @@ input[type=submit],input[type=button]:hover{
 }
 
 .hiddenAni{
-    /*visibility: hidden;*/
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear; 
+    display: none;
 }
 
 .show{
@@ -385,6 +396,5 @@ input[type=submit],input[type=button]:hover{
 }
 
 .showAni{
-    /*visibility: visible;*/
-    opacity: 1;
+    display: block;
 }
