@@ -4,12 +4,14 @@ const url = require("url");
 const fs = require("fs");
 const child_process = require("child_process");
 const jwt = require("jsonwebtoken");
+const http = require("http");
+const https = require("https");
 // EJS 核心
 const express = require("express");
 const engine = require("ejs-locals");
 const cookieParser = require("cookie-parser");
-app = express();
-app.engine("ejs", engine);
+
+
 //mysql
 const { resolveObjectURL } = require("buffer");
 //mylib
@@ -26,6 +28,9 @@ const { decode } = require("punycode");
 //global
 //===========================================================================
 function main(){
+  app = express();
+
+  app.engine("ejs", engine);
   // 讀取 EJS 檔案位置
   app.set("views", "./views");
   // 用 EJS 引擎跑模板
@@ -63,7 +68,8 @@ function main(){
     else next();
   });
   app.get("/", (req, res) => {
-      res.render("index",{"title":"Home","description":"test description"});
+    
+    res.render("index",{"title":"Home","description":"test description"});
   });
   app.get("/Drone_Status",async (req, res) => {
     var q = url.parse(req.url,true).search;
@@ -263,8 +269,21 @@ function main(){
     }
   });
   //
-  app.listen(8080);
+  function listen(app){
+    //app.set("port",8080);
+    var options = {
+      key:fs.readFileSync('./keys/server.key'),
+      cert:fs.readFileSync('./keys/server.crt')
+    }
+    var httpServer = http.createServer(app);
+    var httpsServer = https.createServer(options,app);
+    httpServer.listen(8080);
+    httpsServer.listen(8081);
+  }
+  listen(app);
 }
 
+
 main();
+
 api.api();
