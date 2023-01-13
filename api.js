@@ -1,3 +1,6 @@
+const fs = require("fs");
+const https = require("https");
+
 //import express 和 ws 套件
 const express = require("express");
 //mysql
@@ -14,8 +17,17 @@ exports.api = function(){
   const PORT = 3000
 
   //創建 express 的物件，並綁定及監聽 3000 port ，且設定開啟後在 console 中提示
-  const server = express()
-      .listen(PORT, () => console.log(`[api]Listening on ${PORT}`))
+  var options = { 
+    //https://stackoverflow.com/questions/46175397/https-server-with-websockets-on-node-js
+    //貌似不需要pem
+    /*key:fs.readFileSync('./keys/key.pem'),
+    cert:fs.readFileSync('./keys/crt.pem')*/
+    key:fs.readFileSync('./keys/server.key'),
+    cert:fs.readFileSync('./keys/server.crt')
+  }
+  console.log(options);
+  var server = https.createServer(options,server);
+  server.listen(PORT);
 
   //將 express 交給 SocketServer 開啟 WebSocket 的服務
   const wss = new SocketServer({ server })

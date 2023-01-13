@@ -54,7 +54,7 @@ if(s == "/Drone_Status"){
         var Drone_Block_Input = document.querySelectorAll("[id^=\"Drone_Block_Input_\"");
     
 
-        var ws = new WebSocket('ws://'+self.location.hostname+":3000");
+        var ws = new WebSocket('wss://'+self.location.hostname+":3000");
 
         ws.onopen = () => {
             console.log('open connection');

@@ -20,6 +20,7 @@ const { emitWarning } = require("process");
 const { render } = require("ejs");
 const { post } = require("jquery");
 const { decode } = require("punycode");
+const e = require("express");
 //declare
 //===========================================================================
 //global
@@ -220,11 +221,18 @@ function main(){
         var hash_password = mylib.sha256(req.body.password);
         if(result[i].username == req.body.username && result[i].password == hash_password){
           var payload = {
-            "id":i,
+            "id":result[0].user_id,
             "password":hash_password
           }
+          var exp;
+          if(result[i].user_id == "0"){ //give admin more time
+            exp = 60*60;
+          }
+          else{
+            exp = 10;
+          }
           console.log("login successful");
-          res.cookie("token",jwt.sign(payload,"testsecret",{expiresIn: 60*60}));
+          res.cookie("token",jwt.sign(payload,"testsecret",{expiresIn: exp}));
           res.redirect("/");
         }
         else{

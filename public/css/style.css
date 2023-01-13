@@ -343,6 +343,102 @@ input[type=submit],input[type=button]:hover{
     float: right;
 }
 
+#introduction{
+    /*border: white solid 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.15rem 0.15rem 0.1rem 0.2rem rgba(0,0,0,0.2);
+    */width: calc(100% - 0.5rem);
+    font-size: 24px;
+    position: relative;
+    
+}
+
+
+
+#introduction .memberIntroduction img{
+    display: block; /*https://stackoverflow.com/questions/5804256/image-inside-div-has-extra-space-below-the-image*/
+}
+
+#introduction .memberIntroduction .title{
+    font-size: 3rem;
+    margin: 0.5rem;
+    text-align: center;
+}
+
+#introduction .memberIntroduction p{
+    display: inline-block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#introduction .memberIntroduction .characterFrame{
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+#introduction .memberIntroduction .paragraph{
+    margin: unset;
+    line-height: 1.2;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow-y: auto;
+}
+
+#introduction .memberIntroduction .paragraph_trig{
+    display: inline-block;
+
+}
+
+#introduction .memberIntroduction .paragraph_trig:hover{
+    cursor: pointer;
+    width: 30%;
+    transition: 0.5s;
+}
+
+#introduction .memberIntroduction .paragraph_trig:hover p{
+    display: inline-block;
+}
+
+#introduction .memberIntroduction .frameStyle1{
+    overflow-y: clip;
+    text-align: center;
+    border: white solid 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.15rem 0.15rem 0.5rem 0.17rem rgba(0,0,0,0.2);
+}
+
+.borderStyle1{
+    box-sizing: border-box;
+    border: white solid 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.15rem 0.15rem 0.5rem 0.17rem rgba(0,0,0,0.2);
+}
+
+#introduction .memberIntroduction .row10{
+    height: 100%;
+}
+
+#introduction .memberIntroduction .col2{
+    width: 20%;
+}
+
+#introduction .memberIntroduction .col3{
+    width: 30%;
+}
+
+#introduction .memberIntroduction .col7{
+    width: 70%;
+}
+
+#introduction .memberIntroduction .col8{
+    width: 80%;
+}
+
+#introduction .memberIntroduction .col10{
+    width: 100%;
+}
 
 [id^="Drone_Status_Sign_Offline_"]::before{
     display: inline-block;
