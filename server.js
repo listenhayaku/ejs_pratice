@@ -41,7 +41,7 @@ function main(){
   app.use(cookieParser());
 
   app.get("*",(req, res ,next) => {
-    //console.log(mylib.sha256("admin"));
+    if(req.protocol == "http") res.redirect("https://"+req.headers.host); //redirect http to https
     function verify_fail(){
       console.log("verify fail1");
       res.redirect("/login");
@@ -277,8 +277,8 @@ function main(){
     }
     var httpServer = http.createServer(app);
     var httpsServer = https.createServer(options,app);
-    httpServer.listen(8080);
-    httpsServer.listen(8081);
+    httpServer.listen(80);
+    httpsServer.listen(443);
   }
   listen(app);
 }
