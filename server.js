@@ -11,7 +11,6 @@ const express = require("express");
 const engine = require("ejs-locals");
 const cookieParser = require("cookie-parser");
 
-
 //mysql
 const { resolveObjectURL } = require("buffer");
 //mylib
@@ -282,7 +281,6 @@ function main(){
   }
   listen(app);
 }
-
 
 main();
 
