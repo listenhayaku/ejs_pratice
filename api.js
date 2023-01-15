@@ -25,7 +25,6 @@ exports.api = function(){
     key:fs.readFileSync('./keys/server.key'),
     cert:fs.readFileSync('./keys/server.crt')
   }
-  console.log(options);
   var server = https.createServer(options,server);
   server.listen(PORT);
 

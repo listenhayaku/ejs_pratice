@@ -344,16 +344,12 @@ input[type=submit],input[type=button]:hover{
 }
 
 #introduction{
-    /*border: white solid 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0.15rem 0.15rem 0.1rem 0.2rem rgba(0,0,0,0.2);
-    */width: calc(100% - 0.5rem);
+    width: calc(100% - 0.5rem);
     font-size: 24px;
     position: relative;
+    background-color: var(--drone-primary-color-4);
     
 }
-
-
 
 #introduction .memberIntroduction img{
     display: block; /*https://stackoverflow.com/questions/5804256/image-inside-div-has-extra-space-below-the-image*/
@@ -377,9 +373,10 @@ input[type=submit],input[type=button]:hover{
 }
 
 #introduction .memberIntroduction .paragraph{
+    background-color: white;
     margin: unset;
     line-height: 1.2;
-    display: none;
+    opacity: 0;
     position: absolute;
     top: 0;
     right: 0;
@@ -388,20 +385,22 @@ input[type=submit],input[type=button]:hover{
 
 #introduction .memberIntroduction .paragraph_trig{
     display: inline-block;
-
 }
 
 #introduction .memberIntroduction .paragraph_trig:hover{
     cursor: pointer;
-    width: 30%;
-    transition: 0.5s;
+    width: 15%;
+    transition: 1s;
 }
 
-#introduction .memberIntroduction .paragraph_trig:hover p{
-    display: inline-block;
+
+#introduction .memberIntroduction .paragraph_trig:hover + .paragraph{
+    opacity: 1;
+    transition: 1s;
 }
 
 #introduction .memberIntroduction .frameStyle1{
+    background-color: white;
     overflow-y: clip;
     text-align: center;
     border: white solid 0.5rem;
@@ -417,26 +416,42 @@ input[type=submit],input[type=button]:hover{
 }
 
 #introduction .memberIntroduction .row10{
+    box-sizing: border-box;
     height: 100%;
 }
 
+#introduction .memberIntroduction .col1{
+    box-sizing: border-box;
+    width: 10%;
+}
+
 #introduction .memberIntroduction .col2{
+    box-sizing: border-box;
     width: 20%;
 }
 
 #introduction .memberIntroduction .col3{
+    box-sizing: border-box;
     width: 30%;
 }
 
 #introduction .memberIntroduction .col7{
+    box-sizing: border-box;
     width: 70%;
 }
 
 #introduction .memberIntroduction .col8{
+    box-sizing: border-box;
     width: 80%;
 }
 
+#introduction .memberIntroduction .col85{
+    box-sizing: border-box;
+    width: 85%;
+}
+
 #introduction .memberIntroduction .col10{
+    box-sizing: border-box;
     width: 100%;
 }
 
