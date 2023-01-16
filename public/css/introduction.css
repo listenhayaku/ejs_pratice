@@ -1,0 +1,86 @@
+
+#introduction{
+    width: calc(100% - 0.5rem);
+    font-size: 24px;
+    position: relative;
+    background-color: var(--drone-primary-color-4);
+}
+
+#introduction .memberIntroduction{
+    position: relative;
+}
+
+#introduction .memberIntroduction img{
+    display: block; /*https://stackoverflow.com/questions/5804256/image-inside-div-has-extra-space-below-the-image*/
+}
+
+#introduction .memberIntroduction .title{
+    font-size: 3rem;
+    margin: 0.5rem;
+    text-align: center;
+}
+
+#introduction .memberIntroduction p{
+    display: inline-block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#introduction .memberIntroduction .characterFrame{
+    position: relative;
+    margin-bottom: 1rem;
+    display: flex;
+    float: left;
+}
+
+#introduction .memberIntroduction .paragraph{
+    background-color: white;
+    margin: unset;
+    line-height: 1.2;
+    display: none;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    overflow-y: auto;
+    z-index: 0;
+    position: absolute;
+}
+
+#introduction .memberIntroduction .paragraph_trig{
+    display: inline-block;
+    margin-right: 3rem;
+}
+
+#introduction .memberIntroduction .paragraph_trig:hover{
+    cursor: pointer;
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#introduction .memberIntroduction .paragraph_trig:hover .frameStyle1{
+    box-sizing: border-box;
+    width: 20%;
+    transition: 1s;
+}
+
+#introduction .memberIntroduction .paragraph_trig:hover .paragraph{
+    opacity: 1;
+    display: inline-block;
+}
+
+#introduction .memberIntroduction .frameStyle1{
+    background-color: white;
+    overflow-y: clip;
+    text-align: center;
+    border: white solid 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.15rem 0.15rem 0.5rem 0.17rem rgba(0,0,0,0.2);
+}
+
+#introduction .presentation{
+    height: 15rem;
+    background-color: aqua;
+}
