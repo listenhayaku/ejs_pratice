@@ -360,6 +360,11 @@ input[type=submit],input[type=button]:hover{
     width: 10%;
 }
 
+.col15{
+    box-sizing: border-box;
+    width: 15%;
+}
+
 .col2{
     box-sizing: border-box;
     width: 20%;
@@ -393,6 +398,11 @@ input[type=submit],input[type=button]:hover{
 .col10{
     box-sizing: border-box;
     width: 100%;
+}
+
+.mincol85{
+    box-sizing: border-box;
+    min-width: 8.5rem;
 }
 
 [id^="Drone_Status_Sign_Offline_"]::before{

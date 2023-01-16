@@ -48,7 +48,7 @@
 
 #introduction .memberIntroduction .paragraph_trig{
     display: inline-block;
-    margin-right: 3rem;
+    margin-right: calc(32%);
 }
 
 #introduction .memberIntroduction .paragraph_trig:hover{
@@ -62,9 +62,15 @@
 
 #introduction .memberIntroduction .paragraph_trig:hover .frameStyle1{
     box-sizing: border-box;
-    width: 20%;
+    width: 15%;
+    min-width: 8.5rem;
     transition: 1s;
 }
+
+#introduction .memberIntroduction .paragraph_trig:hover ~ #mask{
+    display: block;
+}
+
 
 #introduction .memberIntroduction .paragraph_trig:hover .paragraph{
     opacity: 1;
@@ -83,4 +89,14 @@
 #introduction .presentation{
     height: 15rem;
     background-color: aqua;
+}
+
+#mask{
+    display: none;
+    position: absolute;
+    top: -100vh;
+    left: -100vw;
+    height: 1000vh;
+    width: 1000vw;
+    background-color: rgba(0, 0, 0, 0.5);
 }
