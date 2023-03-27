@@ -1,0 +1,2 @@
+ip       port timestamp totvolt totcurrent totpower
+char(15) int  datetime  float   float      float
