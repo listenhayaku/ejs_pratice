@@ -48,7 +48,7 @@
 
 #introduction .memberIntroduction .paragraph_trig{
     display: inline-block;
-    margin-right: calc(32%);
+    margin-right: calc(8%);
 }
 
 #introduction .memberIntroduction .paragraph_trig:hover{
