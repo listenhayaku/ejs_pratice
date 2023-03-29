@@ -52,10 +52,12 @@ t.start()
 try:
     while not(STOP):
         if(param["send"] == "true"):client.send(param["data"].encode("utf-8"))
-        client.recv(1024)
-        STOP = True
+        msg = client.recv(4096)
+        if(msg != ""):
+            print("(debug)[main]recv msg:",msg)
+        else:STOP = True #maybe has problem
 except Exception as e:
-    print("(debug)[communicator.py][main]e:",e)
+    print("(error)[communicator.py][main]e:",e)
 finally:
     STOP = True
     client.close()
