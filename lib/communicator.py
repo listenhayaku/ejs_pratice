@@ -39,6 +39,23 @@ def inputFunc(client):
         #https://stackoverflow.com/questions/1335507/keyboard-input-with-timeout -Pontus
 
 
+def ParseData(msg = None):
+    try:
+        if(msg == None):
+            print("(debug)[ParseData]msg is None")
+            return False
+        if(type(msg) != str):
+            print("(error)[communicator.py][ParseData]msg type is not string")
+            return False
+        lMsg = msg.split("//")
+        if(lMsg[0] != "data"):
+            print("(error)[communicator.py][ParseData]lMsg[0] is not data,lMsg[0] is",lMsg[0])
+            return False
+        with open("public/file/data_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
+            print("(debug)[ParseData]open lMsg[1]:",lMsg[1])
+            f.writelines(lMsg[1])
+    except Exception as e:
+        print("(error)[ParseData]e:",e)
 
 STOP = False
 dataQueue = []
@@ -55,6 +72,7 @@ try:
         msg = client.recv(4096)
         if(msg != ""):
             print("(debug)[main]recv msg:",msg)
+            ParseData(msg.decode("utf-8"))
         else:STOP = True #maybe has problem
 except Exception as e:
     print("(error)[communicator.py][main]e:",e)

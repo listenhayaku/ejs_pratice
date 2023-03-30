@@ -6,6 +6,7 @@ const child_process = require("child_process");
 const jwt = require("jsonwebtoken");
 const http = require("http");
 const https = require("https");
+const csv = require("fast-csv");
 // EJS 核心
 const express = require("express");
 const engine = require("ejs-locals");
@@ -84,9 +85,29 @@ function main(){
       }
       connect_to_node();
     }
+    const data = [];
+    function test(){
+      fs.createReadStream('./public/file/gps.csv')
+        .pipe(csv.parse({ headers: true }))
+        .on('error', error => console.error(error))
+        .on('data', row => data.push(row))
+        .on('end', ()=>{});
+    };
+    test();
+
+    var test2;
+    test2 = await mylib.get_mysql_test("SELECT * FROM {database}.{table};",test);
+    /*test2.then((value)=>{
+      console.log("(debug)[then]",value);
+    });*/
+    console.log("(debug)[Drone_Status]test2:",test2);
+
     mylib.get_mysql("SELECT * FROM {database}.{table};",function(result){
       res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
     });
+    /*mylib.get_mysql("SELECT * FROM {database}.{table};",function(result){
+      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
+    });*/
   });
   app.post("/Drone_Status", (req, res) => {
     console.log("(debug)[server.js][Drone_Status.post]req.body",req.body);
@@ -208,7 +229,10 @@ function main(){
     }
     else{
       var number = q.replace("?","");
-      res.render("show_log",{"title":"show log","number":number,})
+      mylib.get_mysql("select * from {database}.{table}",function(result){
+        res.render("show_log",{"title":"show log","number":number,"ip":result[number].ip,"port":result[number].port,});
+      });
+      //res.render("show_log",{"title":"show log","number":number,});
     }
   });
   app.get("/login", (req, res) => {

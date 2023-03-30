@@ -429,7 +429,7 @@ input[type=submit],input[type=button]:hover{
 
 [id^="detail_infoFrame_"]{
     position: absolute;
-    height: 5rem;
+    
 }
 
 [id^="detail_infoFrame_"] > button{
