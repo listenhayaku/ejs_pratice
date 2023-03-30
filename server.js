@@ -22,12 +22,14 @@ const { render } = require("ejs");
 const { post } = require("jquery");
 const { decode } = require("punycode");
 const e = require("express");
+const { rejects } = require("assert");
 //declare
 //===========================================================================
 //global
 
 //global
 //===========================================================================
+
 function main(){
   app = express();
 
@@ -73,6 +75,8 @@ function main(){
     res.render("index",{"title":"Home","description":"test description"});
   });
   app.get("/Drone_Status",async (req, res) => {
+    var FileName = "./public/file/log/gps/gps_172.30.7.199:5000.csv";
+    var result;
     var q = url.parse(req.url,true).search;
     if(q != null){
       async function connect_to_node(){
@@ -85,29 +89,31 @@ function main(){
       }
       connect_to_node();
     }
-    const data = [];
-    function test(){
-      fs.createReadStream('./public/file/gps.csv')
+
+    result = await mylib.get_mysql_ret("SELECT * FROM {database}.{table};");
+    
+    async function LocalParseCsv(){
+      return new Promise((resolve,rejects) => {
+        var ret = [];
+        fs.createReadStream(FileName)
         .pipe(csv.parse({ headers: true }))
         .on('error', error => console.error(error))
-        .on('data', row => data.push(row))
-        .on('end', ()=>{});
+        .on('data', row => ret.push(row))
+        .on('end', ()=>{resolve(ret)});
+        return ret;
+      });
+
     };
-    test();
 
-    var test2;
-    test2 = await mylib.get_mysql_test("SELECT * FROM {database}.{table};",test);
-    /*test2.then((value)=>{
-      console.log("(debug)[then]",value);
-    });*/
-    console.log("(debug)[Drone_Status]test2:",test2);
+    if(fs.existsSync(FileName)){
+      var Gps = await LocalParseCsv();
+      console.log("(debug)[Drone_Status]data:",Gps[Gps.length - 1]);
+      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,"LatestGps":Gps[Gps.length - 1],});
+    }
+    else{
+      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,"LatestGps":undefined,});
+    }
 
-    mylib.get_mysql("SELECT * FROM {database}.{table};",function(result){
-      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
-    });
-    /*mylib.get_mysql("SELECT * FROM {database}.{table};",function(result){
-      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,});
-    });*/
   });
   app.post("/Drone_Status", (req, res) => {
     console.log("(debug)[server.js][Drone_Status.post]req.body",req.body);
