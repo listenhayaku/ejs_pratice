@@ -178,7 +178,6 @@ if(s == "/Drone_Status"){
     }
     for(let i = 0;i < LatButton.length;i++){
         LatButton[i].onclick = function(){
-
             if(!document.querySelector("[id^=Lat_info_"+i+"]").classList.toString().includes("showAni")){
                 document.querySelector("[id^=Lat_info_"+i+"]").classList.remove("hiddenAni");
                 document.querySelector("[id^=Lat_info_"+i+"]").classList.add("showAni");

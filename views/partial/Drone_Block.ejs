@@ -50,16 +50,15 @@
                 <div id="detail_infoFrame_<%=i%>" class="block hiddenAni">
                     <button id="Lng_Button_<%=i%>">Lng</button>
                     <button id="Lat_Button_<%=i%>">Lat</button>
-                    <button>test3</button>
-                    <p>請選擇資訊</p>
+                    <button id="IsolatedNode">isolated node</button>
                     <div id="Lng_info_<%=i%>" class="hiddenAni">
                         <%if(LatestGps[i] != undefined){%>
-                            <%=LatestGps[i].gps_lng%>
+                            Lng:<%=LatestGps[i].gps_lng%>
                         <%}%>
                     </div>
                     <div id="Lat_info_<%=i%>" class="hiddenAni">
                         <%if(LatestGps[i] != undefined){%>
-                            <%=LatestGps[i].gps_lat%>
+                            Lat:<%=LatestGps[i].gps_lat%>
                         <%}%>
                     </div>
                 </div>
