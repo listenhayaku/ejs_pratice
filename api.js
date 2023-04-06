@@ -90,7 +90,8 @@ exports.api = function(){
             async function send(){
               ws.send(JSON.stringify(data));
             }
-            chartTimer = setInterval(send,1000);
+            send();
+            chartTimer = setInterval(send,10000);
           }
           Chart();
         }

@@ -202,6 +202,10 @@ else if(s == "/Chart"){
     var canvas = document.querySelectorAll("canvas");
     var node_select = document.getElementById("node_select");
     var ul;
+    var myCharOption = {
+        //responsive: true,
+        maintainAspectRatio: false
+    }
 
     function update_select_list(){
 
@@ -265,24 +269,13 @@ else if(s == "/Chart"){
                             borderColor: 'rgb(255, 25, 192)',
                         }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero:false
-                                }
-                            }]
-                        }
-                    }
+                    options: myCharOption
                 });    
             }
         }
         else{
-            var ctx = document.getElementById('myChart1');
+            var chart = new Chart(document.getElementById('myChart1'), null);
             canvas[0].id="";
-            var chart = new Chart(ctx, null);  
         }
         
         if(canvas[1].id != "myChart2"){
@@ -324,24 +317,14 @@ else if(s == "/Chart"){
                             borderColor: 'rgb(255, 192, 192)',
                         }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero:false
-                                }
-                            }]
-                        }
-                    }
+                    options: myCharOption
                 });    
             }
         }
         else{
-            var ctx = document.getElementById('myChart2');
+           
+            var chart = new Chart(document.getElementById('myChart2'), null);
             canvas[1].id="";
-            var chart = new Chart(ctx, null);  
         }
     };
 
