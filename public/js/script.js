@@ -102,6 +102,8 @@ if(s == "/Drone_Status"){
     var pauseButton = document.querySelectorAll("[id^=\"pause_\"");
     var submitButton = document.querySelectorAll("[id^=Drone_Block_] form input[type=button]");
     var detailButton = document.querySelectorAll("[id^=detail_infoButton_]");
+    var LngButton = document.querySelectorAll("[id^=Lng_Button_]");
+    var LatButton = document.querySelectorAll("[id^=Lat_Button_]");
 
     for(let i = 0;i < show_log.length;i++){
         show_log[i].onclick = function(){
@@ -162,43 +164,192 @@ if(s == "/Drone_Status"){
             }
         }
     }
+    for(let i = 0;i < LngButton.length;i++){
+        LngButton[i].onclick = function(){
+            if(!document.querySelector("[id^=Lng_info_"+i+"]").classList.toString().includes("showAni")){
+                document.querySelector("[id^=Lng_info_"+i+"]").classList.remove("hiddenAni");
+                document.querySelector("[id^=Lng_info_"+i+"]").classList.add("showAni");
+            }
+            else{
+                document.querySelector("[id^=Lng_info_"+i+"]").classList.remove("showAni");
+                document.querySelector("[id^=Lng_info_"+i+"]").classList.add("hiddenAni");
+            }
+        };
+    }
+    for(let i = 0;i < LatButton.length;i++){
+        LatButton[i].onclick = function(){
+
+            if(!document.querySelector("[id^=Lat_info_"+i+"]").classList.toString().includes("showAni")){
+                document.querySelector("[id^=Lat_info_"+i+"]").classList.remove("hiddenAni");
+                document.querySelector("[id^=Lat_info_"+i+"]").classList.add("showAni");
+            }
+            else{
+                document.querySelector("[id^=Lat_info_"+i+"]").classList.remove("showAni");
+                document.querySelector("[id^=Lat_info_"+i+"]").classList.add("hiddenAni");
+            }
+        };
+    }
 
     //connect_to_api("");
 
     //ws.send("Drone_Status");
 }
 else if(s == "/Chart"){
+    var ws;
+    var recv;
+    var node;   //ip:port
     var chart_show = document.getElementById("chart_show");
-    var canvas = document.querySelector("canvas");
-    chart_show.onclick = function(){
-        if(canvas.id != "myChart"){
-            canvas.id="myChart";
-            var ctx = document.getElementById('myChart');
-            var chart = new Chart(ctx, {
-                type: "line", // 圖表類型
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                    datasets: [{
-                        label: '平均溫度',
-                        data: [20, 22.3, 25, 26, 28, 31.2, 33],
-                        fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
-                    }]
-                } 
-            });            
+    var canvas = document.querySelectorAll("canvas");
+    var node_select = document.getElementById("node_select");
+    var ul;
+
+    function update_select_list(){
+
+
+        ul = document.querySelector("[id=ul_node_select]");
+        
+        var old = document.querySelectorAll("[id=ul_node_select] li");
+        for(var i = 0;i < old.length;i++){
+            old[i].remove();
+        }
+        new_li = [];
+        for(var i = 0;i < recv.length;i++){
+            let templi = document.createElement("li");
+            templi.classList.add("paddingtop02","bg_white_hover","paddingbottom02");
+            templi.textContent = recv[i]["ip"]+":"+recv[i]["port"];
+            ul.appendChild(templi);
+        }
+
+        for(let i = 0;i < document.querySelectorAll("[id=ul_node_select] li").length;i++){
+            document.querySelectorAll("[id=ul_node_select] li")[i].onclick = function(){
+                node = recv[i];
+                node_select.textContent = node["ip"]+":"+node["port"];
+                document.querySelector("[id=ul_node_select]").classList.add("hiddenAni");
+            };
+        }
+
+    }
+
+    node_select.onclick = function(){
+        if(document.querySelector("[id=ul_node_select]").classList.toString().includes("hiddenAni")){
+            document.querySelector("[id=ul_node_select]").classList.remove("hiddenAni");
         }
         else{
-            var ctx = document.getElementById('myChart');
-            canvas.id="";
+            document.querySelector("[id=ul_node_select]").classList.add("hiddenAni");
+        }
+        update_select_list();
+    }
+    chart_show.onclick = function(){
+        if(canvas[0].id != "myChart1"){
+            if(node != undefined){
+                canvas[0].id="myChart1";
+                var d_bat_volt = [];
+                var d_bat_cur = [];
+                var d_bat_power = []; 
+                var t_bat = [];
+                for(var i = 0;i < node["data"]["bat"].length;i++){
+                    t_bat.push(node["data"]["bat"][i]["Timestamp"]);
+                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt"]);
+                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur"]);
+                    d_bat_power.push(node["data"]["bat"][i]["bat_power"]);
+                }
+                var ctx = document.getElementById('myChart1');
+                var chart = new Chart(ctx, {
+                    type: "line", // 圖表類型
+                    data: {
+                        labels: t_bat,
+                        datasets: [{
+                            label: 'bat_power(mW)',
+                            data: d_bat_power,
+                            fill: false,
+                            borderColor: 'rgb(255, 25, 192)',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:false
+                                }
+                            }]
+                        }
+                    }
+                });    
+            }
+        }
+        else{
+            var ctx = document.getElementById('myChart1');
+            canvas[0].id="";
+            var chart = new Chart(ctx, null);  
+        }
+        
+        if(canvas[1].id != "myChart2"){
+            if(node != undefined){
+                canvas[1].id="myChart2";
+                var d_gps_lng = [];
+                var d_gps_alt = [];
+                var t_gps = [];
+                var d_bat_volt = [];
+                var d_bat_cur = [];
+                var d_bat_power = []; 
+                var t_bat = [];
+                for(var i = 0;i < node["data"]["gps"].length;i++){
+                    t_gps.push(node["data"]["gps"][i]["Timestamp"]);
+                    d_gps_lng.push(node["data"]["gps"][i]["gps_lng"]);
+                    d_gps_alt.push(node["data"]["gps"][i]["gps_alt"]);
+                }
+                for(var i = 0;i < node["data"]["bat"].length;i++){
+                    t_bat.push(node["data"]["bat"][i]["Timestamp"]);
+                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt"]);
+                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur"]);
+                    d_bat_power.push(node["data"]["bat"][i]["bat_power"]);
+                }
+                var ctx = document.getElementById('myChart2');
+                var chart = new Chart(ctx, {
+                    type: "line", // 圖表類型
+                    data: {
+                        labels: t_bat,
+                        datasets: [{
+                            label: 'bat_cur(mA)',
+                            data: d_bat_cur,
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                        },
+                        {
+                            label: 'bat_volt(V)',
+                            data: d_bat_volt,
+                            fill: false,
+                            borderColor: 'rgb(255, 192, 192)',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:false
+                                }
+                            }]
+                        }
+                    }
+                });    
+            }
+        }
+        else{
+            var ctx = document.getElementById('myChart2');
+            canvas[1].id="";
             var chart = new Chart(ctx, null);  
         }
     };
 
-    function connect_to_api(data = ""){
-        var ws = new WebSocket("ws://"+self.location.hostname+":3000");
+    function connect_to_api(msg = ""){
+        ws = new WebSocket("wss://"+self.location.hostname+":3000");
         ws.onopen = () => {
             console.log("open connection");
-            ws.send(data);
+            ws.send(msg);
         }
         ws.onclose = () => {
             console.log("close connection");
@@ -206,13 +357,20 @@ else if(s == "/Chart"){
         ws.onmessage = event => {
             if(event.data instanceof Blob){
                 reader = new FileReader();
-                read.onload = () => {
+                reader.onload = () => {
                     console.log(reader.result);
                 }
                 reader.readAsText(event.data);
             }
             else{
-                console.log(event.data);
+                try{
+                    recv = JSON.parse(event.data);
+                    //console.log(data);
+                    //update_select_list();
+                }
+                catch(e){
+                    //console.log(e);
+                }
             }
         }
     }

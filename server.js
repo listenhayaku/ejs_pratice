@@ -75,7 +75,7 @@ function main(){
     res.render("index",{"title":"Home","description":"test description"});
   });
   app.get("/Drone_Status",async (req, res) => {
-    var FileName = "./public/file/log/gps/gps_172.30.7.199:5000.csv";
+    var FileName;// = "./public/file/log/gps/gps_172.30.7.199:5000.csv";
     var result;
     var q = url.parse(req.url,true).search;
     if(q != null){
@@ -91,8 +91,8 @@ function main(){
     }
 
     result = await mylib.get_mysql_ret("SELECT * FROM {database}.{table};");
-    
-    async function LocalParseCsv(){
+
+    /*async function LocalParseCsv(FileName){
       return new Promise((resolve,rejects) => {
         var ret = [];
         fs.createReadStream(FileName)
@@ -102,17 +102,20 @@ function main(){
         .on('end', ()=>{resolve(ret)});
         return ret;
       });
+    };*/
 
-    };
-
-    if(fs.existsSync(FileName)){
-      var Gps = await LocalParseCsv();
-      console.log("(debug)[Drone_Status]data:",Gps[Gps.length - 1]);
-      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,"LatestGps":Gps[Gps.length - 1],});
+    var listLastestGps = [];
+    for(var i = 0;i < result.length;i++){
+      FileName = "./public/file/log/gps/gps_"+result[i].ip+":"+result[i].port+".csv";
+      if(fs.existsSync(FileName)){
+        var Gps = await mylib.ParseCsv(FileName);  //Gps have all data
+        listLastestGps.push(Gps[Gps.length - 1]); //Get the latest data
+      }
+      else{
+        listLastestGps.push(undefined);
+      }
     }
-    else{
-      res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,"LatestGps":undefined,});
-    }
+    res.render("Drone_Status",{"title":"Drone_Status","amount":result.length,"result":result,"LatestGps":listLastestGps,});
 
   });
   app.post("/Drone_Status", (req, res) => {

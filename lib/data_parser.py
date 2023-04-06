@@ -1,6 +1,10 @@
 import csv
 import sys
 
+#usage 
+#at path ./ejs_pratice
+#enter python3 ./lib/data_parser.py $ip $port
+
 def claw_v2(address,outputFileName_gps,outputFileName_bat):
     with open(address) as f:
         content = f.readlines()
@@ -32,11 +36,11 @@ def claw_v2(address,outputFileName_gps,outputFileName_bat):
                 for a in bat_content:
                     if("VoltR :" in a):
                         bat_volt = a.split("VoltR : ")[1]
-                        bat_volt_list.append(bat_volt[0:10])
+                        bat_volt_list.append(str(bat_volt[0:10]))
                 for b in bat_content:
                     if("CurrTot :" in b):
                         bat_cur = b.split("CurrTot : ")[1]
-                        bat_cur_list.append(bat_cur[0:7])
+                        bat_cur_list.append(str(bat_cur[0:7]))
         for _ in range(len(gps_list)):
             gps_time_stamp_list.append(gps_list[_][0][0:16])
         for _ in range(len(bat_list)):

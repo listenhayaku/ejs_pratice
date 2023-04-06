@@ -67,12 +67,32 @@ exports.api = function(){
           monitorTimer = setInterval(()=>mylib.monitor(),3000);
         }
         else if(data.toString() == "Chart"){
-          //console.log("(debug)[api][ws.on]event message data.toString() == Chart");
-          ws.send("Hello");
-          function Chart(){
-            ws.send("[01,22,2]");
+          async function Chart(){
+            ws.send("Hello");
+            var sql_data = await mylib.get_mysql_ret("select * from {database}.{table};");
+            
+            var data = [];
+            console.log("(debug)[api][Chart]sql_data.length:",sql_data.length);
+            for(var i = 0;i < sql_data.length;i++){
+              var tempobj = {"gps":undefined,"bat":undefined};
+              var FileName = "./public/file/log/gps/gps_"+sql_data[i].ip+":"+sql_data[i].port+".csv";
+              if(fs.existsSync(FileName)){
+                tempobj["gps"] = await mylib.ParseCsv(FileName); 
+              }
+              FileName = "./public/file/log/bat/bat_"+sql_data[i].ip+":"+sql_data[i].port+".csv";
+              if(fs.existsSync(FileName)){
+                tempobj["bat"] = await mylib.ParseCsv(FileName); 
+              }
+
+              data.push({"ip":sql_data[i].ip,"port":sql_data[i].port,"data":tempobj});
+            }
+
+            async function send(){
+              ws.send(JSON.stringify(data));
+            }
+            chartTimer = setInterval(send,1000);
           }
-          chartTimer = setInterval(Chart,1000);
+          Chart();
         }
         else if(data.toString().includes("pauseButton_onclick")){
           var info = JSON.parse(data.toString().split("\n")[1]);

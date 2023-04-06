@@ -48,13 +48,18 @@
             <div id="detail_info_<%=i%>" style="display: inline-block;">
                 <button id="detail_infoButton_<%=i%>">detail info</button>
                 <div id="detail_infoFrame_<%=i%>" class="block hiddenAni">
-                    <button>Lng</button>
-                    <button>Lat</button>
+                    <button id="Lng_Button_<%=i%>">Lng</button>
+                    <button id="Lat_Button_<%=i%>">Lat</button>
                     <button>test3</button>
                     <p>請選擇資訊</p>
                     <div id="Lng_info_<%=i%>" class="hiddenAni">
-                        <%if(LatestGps != undefined){%>
-                            <%=LatestGps.gps_lng%>
+                        <%if(LatestGps[i] != undefined){%>
+                            <%=LatestGps[i].gps_lng%>
+                        <%}%>
+                    </div>
+                    <div id="Lat_info_<%=i%>" class="hiddenAni">
+                        <%if(LatestGps[i] != undefined){%>
+                            <%=LatestGps[i].gps_lat%>
                         <%}%>
                     </div>
                 </div>
