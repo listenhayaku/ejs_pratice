@@ -95,6 +95,19 @@ if(s == "/Drone_Status"){
         }
         return ws;
     }
+    function Isolatenode(nodeid,targetid){
+        var tempelement = document.createElement("p");
+        var isolatedip = document.querySelectorAll("[id=Drone_Block_"+targetid+"] .top .right p")[0].textContent;
+        var isolatedport = document.querySelectorAll("[id=Drone_Block_"+targetid+"] .top .right p")[1].textContent;
+
+        lIsolatednode.push({"node":nodeid,"target":targetid});
+        document.getElementById("Drone_Block_"+targetid).style = "background-color: red;";
+        
+        tempelement.textContent = "isolated node:" + isolatedip + ":" + isolatedport;
+        tempelement.classList.add("hiddenAni");
+        document.getElementById("detail_infoFrame_"+nodeid).appendChild(tempelement);
+    }
+
     var ws = connect_to_api("Drone_Status");
 
     var show_log = document.querySelectorAll("[id^=\"show_log_\"");
@@ -104,6 +117,9 @@ if(s == "/Drone_Status"){
     var detailButton = document.querySelectorAll("[id^=detail_infoButton_]");
     var LngButton = document.querySelectorAll("[id^=Lng_Button_]");
     var LatButton = document.querySelectorAll("[id^=Lat_Button_]");
+    var IsolatedButton = document.querySelectorAll("[id^=IsolatedNode_]");
+
+    var lIsolatednode = []; //[{"node":0,"target":13},{}...]
 
     for(let i = 0;i < show_log.length;i++){
         show_log[i].onclick = function(){
@@ -188,7 +204,20 @@ if(s == "/Drone_Status"){
             }
         };
     }
-
+    for(let i = 0; i < IsolatedButton.length;i++){
+        IsolatedButton[i].onclick = function(){
+            if(document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.toString().includes("hiddenAni")){
+                console.log("(debug)[test]hello");
+                document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.remove("hiddenAni");
+                document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.add("showAni");
+            }
+            else{
+                console.log("(debug)[test]happy happy happy cat");
+                document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.remove("showAni");
+                document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.add("hiddenAni");
+            }
+        }
+    }
     //connect_to_api("");
 
     //ws.send("Drone_Status");

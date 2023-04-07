@@ -60,6 +60,10 @@ iframe{
     background-color: white;
 }
 
+.bg_isolated{
+    background-color: red;
+}
+
 .top{
     float: left;
     width: 100%;
