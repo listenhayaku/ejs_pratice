@@ -179,7 +179,7 @@ if(s == "/Drone_Status"){
                 document.querySelector("[id^=detail_infoFrame_"+i+"]").classList.remove("showAni");
             }
         }
-    }
+    };
     for(let i = 0;i < LngButton.length;i++){
         LngButton[i].onclick = function(){
             if(!document.querySelector("[id^=Lng_info_"+i+"]").classList.toString().includes("showAni")){
@@ -191,7 +191,7 @@ if(s == "/Drone_Status"){
                 document.querySelector("[id^=Lng_info_"+i+"]").classList.add("hiddenAni");
             }
         };
-    }
+    };
     for(let i = 0;i < LatButton.length;i++){
         LatButton[i].onclick = function(){
             if(!document.querySelector("[id^=Lat_info_"+i+"]").classList.toString().includes("showAni")){
@@ -203,8 +203,8 @@ if(s == "/Drone_Status"){
                 document.querySelector("[id^=Lat_info_"+i+"]").classList.add("hiddenAni");
             }
         };
-    }
-    for(let i = 0; i < IsolatedButton.length;i++){
+    };
+    for(let i = 0;i < IsolatedButton.length;i++){
         IsolatedButton[i].onclick = function(){
             if(document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.toString().includes("hiddenAni")){
                 console.log("(debug)[test]hello");
@@ -217,7 +217,7 @@ if(s == "/Drone_Status"){
                 document.querySelector("[id=IsolatedNode_"+i+"]~p").classList.add("hiddenAni");
             }
         }
-    }
+    };
     //connect_to_api("");
 
     //ws.send("Drone_Status");
