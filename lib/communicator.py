@@ -18,6 +18,7 @@ def readparam():
     port = int(sys.argv[2])
     data = str(sys.argv[3])
     send = str(sys.argv[4])
+    #print("(debug)[readparam]ip:{ip},port:{port},data:{data},send:{send}".format(ip=ip,port=port,data=data,send=send))
     return {"ip":ip,"port":port,"data":data,"send":send}
     
 def inputFunc(client):
@@ -63,23 +64,27 @@ dataQueue = []
 param = readparam()
 client = client_init(param["ip"],param["port"],param["data"])
 client.recv(1024)   #我寫的那個爛區塊練當別人連線近來會傳一個hello資訊
-print("[communicator.py]successful")
+print("[communicator.py]successful")    #這行不可以刪掉，他是給呼叫他的js一個訊號
 t = threading.Thread(target=inputFunc,args=(client,))
 t.start()
+
 try:
+    client.send("response//GCS".encode("utf-8"))#這個是對node的serverlisten那邊初始話辨認用
     while not(STOP):
-        if(param["send"] == "true"):client.send(param["data"].encode("utf-8"))
+        if(param["send"] == "true"):
+            client.send(param["data"].encode("utf-8"))  #這個是參數設定要傳遞的訊息
         msg = client.recv(4096)
         if(msg != ""):
             print("(debug)[main]recv msg:",msg)
             ParseData(msg.decode("utf-8"))
         else:STOP = True #maybe has problem
+except ConnectionResetError:
+    pass
 except Exception as e:
     print("(error)[communicator.py][main]e:",e)
 finally:
     STOP = True
     client.close()
-
 
 
 
