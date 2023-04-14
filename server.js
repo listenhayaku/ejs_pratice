@@ -219,7 +219,7 @@ function main(){
     //parseInt到無法轉換的字串也會便NaN
     if(isNaN(postObj.id) || isNaN(postObj.port) || ip == "" || ip.includes("\"") || name == "" || name.includes("\"") || description.includes("\"")) res.redirect("/create_node");
     else{
-      var sql = "INSERT INTO {table} VALUES( "+postObj.id+",\""+postObj.ip+"\","+postObj.port+",\""+postObj.name+"\",\""+postObj.description+"\",0);";
+      var sql = "INSERT INTO {table} VALUES( "+postObj.id+",\""+postObj.ip+"\","+postObj.port+",\""+postObj.name+"\",\""+postObj.description+"\",0,NULL);";
       console.log(sql);
       mylib.get_mysql(sql,function(result){
         if(result == false){
