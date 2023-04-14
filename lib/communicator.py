@@ -40,7 +40,7 @@ def inputFunc(client):
         #https://stackoverflow.com/questions/1335507/keyboard-input-with-timeout -Pontus
 
 
-def ParseData(msg = None):
+def ParseData(msg = None):  #解析從node接收到的資料
     try:
         if(msg == None):
             print("(debug)[ParseData]msg is None")
@@ -62,9 +62,18 @@ STOP = False
 dataQueue = []
 
 param = readparam()
-client = client_init(param["ip"],param["port"],param["data"])
-client.recv(1024)   #我寫的那個爛區塊練當別人連線近來會傳一個hello資訊
+try:
+    client = client_init(param["ip"],param["port"],param["data"])
+    client.recv(1024)   #我寫的那個爛區塊練當別人連線近來會傳一個hello資訊
+except socket.timeout:
+    exit(0)
+except Exception as e:
+    print("(error)[main]client_init e:",e)
+
+#print("(debug)[communicator.py]client:",client)
 print("[communicator.py]successful")    #這行不可以刪掉，他是給呼叫他的js一個訊號
+
+
 t = threading.Thread(target=inputFunc,args=(client,))
 t.start()
 
@@ -75,7 +84,7 @@ try:
             client.send(param["data"].encode("utf-8"))  #這個是參數設定要傳遞的訊息
         msg = client.recv(4096)
         if(msg != ""):
-            print("(debug)[main]recv msg:",msg)
+            print(msg.decode("utf-8"))
             ParseData(msg.decode("utf-8"))
         else:STOP = True #maybe has problem
 except ConnectionResetError:
