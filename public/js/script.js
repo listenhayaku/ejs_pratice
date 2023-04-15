@@ -76,8 +76,9 @@ if(s == "/Drone_Status"){
             }
             else{
                 //console.log("(debug)[onmessage]not blob:"+event.data);
-                var Drone_Status = JSON.parse(event.data);
+                Drone_Status = JSON.parse(event.data);
                 for(var i = 0;i < Drone_Status.length;i++){
+                    //燈號部份
                     if(Drone_Status[i]["status"] == 1){
                         Drone_Status_Sign[i].textContent="online";
                         Drone_Status_Sign[i].id="Drone_Status_Sign_Online_"+i;
@@ -89,6 +90,17 @@ if(s == "/Drone_Status"){
                         Drone_Status_Sign[i].id="Drone_Status_Sign_Offline_"+i;
                         Drone_Block_Input[i].disabled="disabled";
                         document.getElementById("pause_"+i).style="display: none;";
+                    }
+                    //隔離部份
+                    if(Drone_Status[i]["isolating"] != null){
+                        console.log("Drone_Status[i][isolating]",Drone_Status[i]["isolating"]);
+                        var tempip = Drone_Status[i]["isolating"].split(":")[0];
+                        var tempport = Drone_Status[i]["isolating"].split(":")[1];
+                        for(var j = 0;j < Drone_Status.length;j++){
+                            if(Drone_Status[j]["ip"] == tempip && Drone_Status[j]["port"] == tempport){
+                                Isolatenode(i,j);
+                            }
+                        }
                     }
                 }
             }
@@ -120,6 +132,7 @@ if(s == "/Drone_Status"){
     var IsolatedButton = document.querySelectorAll("[id^=IsolatedNode_]");
 
     var lIsolatednode = []; //[{"node":0,"target":13},{}...]
+    var Drone_Status;
 
     for(let i = 0;i < show_log.length;i++){
         show_log[i].onclick = function(){
