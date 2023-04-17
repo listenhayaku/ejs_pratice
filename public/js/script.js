@@ -406,7 +406,7 @@ else if(s == "/Test"){
 else if(s == "/show_log"){
     //var ws = new WebSocket('ws://localhost:3000');
     //var ws = new WebSocket("ws://"+api("ip")+":3000");
-    var ws = new WebSocket('ws://'+self.location.hostname+":3000");
+    var ws = new WebSocket('wss://'+self.location.hostname+":3000");
 
     ws.onopen = () => {
         console.log('open connection');
@@ -429,6 +429,8 @@ else if(s == "/show_log"){
             console.log(event.data);
         }
     }
+    console.log("(test)");
+    var refresh = setInterval(() => {location.reload();console.log("test")},1000);
 }
 
 
