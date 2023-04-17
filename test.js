@@ -1,6 +1,4 @@
-var str = "Hello:Jajaj:jaoijsd";
+var ipt = "hello"
 
-var test = str.split(":");
-
-console.log(str);
+var test = {test:ipt};
 console.log(test);
