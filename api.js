@@ -68,30 +68,24 @@ exports.api = function(){
         }
         else if(data.toString() == "Chart"){
           async function Chart(){
-            ws.send("Hello");
-            var sql_data = await mylib.get_mysql_ret("select * from {database}.{table};");
-            
-            var data = [];
-            console.log("(debug)[api][Chart]sql_data.length:",sql_data.length);
-            for(var i = 0;i < sql_data.length;i++){
-              var tempobj = {"gps":undefined,"bat":undefined};
-              var FileName = "./public/file/log/gps/gps_"+sql_data[i].ip+":"+sql_data[i].port+".csv";
-              if(fs.existsSync(FileName)){
-                tempobj["gps"] = await mylib.ParseCsv(FileName); 
-              }
-              FileName = "./public/file/log/bat/bat_"+sql_data[i].ip+":"+sql_data[i].port+".csv";
-              if(fs.existsSync(FileName)){
-                tempobj["bat"] = await mylib.ParseCsv(FileName); 
-              }
-
-              data.push({"ip":sql_data[i].ip,"port":sql_data[i].port,"data":tempobj});
-            }
-
             async function send(){
+              ws.send("Hello");
+              var sql_data = await mylib.get_mysql_ret("select * from {database}.{table};");
+              
+              var data = [];
+              for(var i = 0;i < sql_data.length;i++){
+                var tempobj = {"gps":undefined,"bat":undefined};
+                var FileName = "./public/file/log/bat/bat_"+sql_data[i].ip+":"+sql_data[i].port+".csv";
+                if(fs.existsSync(FileName)){
+                  tempobj["bat"] = await mylib.ParseCsv(FileName); 
+                }
+  
+                data.push({"ip":sql_data[i].ip,"port":sql_data[i].port,"data":tempobj});
+              }
               ws.send(JSON.stringify(data));
             }
             send();
-            chartTimer = setInterval(send,10000);
+            chartTimer = setInterval(send,5000);
           }
           Chart();
         }

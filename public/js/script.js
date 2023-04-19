@@ -249,8 +249,6 @@ else if(s == "/Chart"){
     }
 
     function update_select_list(){
-
-
         ul = document.querySelector("[id=ul_node_select]");
         
         var old = document.querySelectorAll("[id=ul_node_select] li");
@@ -292,11 +290,12 @@ else if(s == "/Chart"){
                 var d_bat_cur = [];
                 var d_bat_power = []; 
                 var t_bat = [];
+
                 for(var i = 0;i < node["data"]["bat"].length;i++){
                     t_bat.push(node["data"]["bat"][i]["Timestamp"]);
-                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt"]);
-                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur"]);
-                    d_bat_power.push(node["data"]["bat"][i]["bat_power"]);
+                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt(V)"]);
+                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur(mA)"]);
+                    d_bat_power.push(node["data"]["bat"][i]["bat_power(%)"]);
                 }
                 var ctx = document.getElementById('myChart1');
                 var chart = new Chart(ctx, {
@@ -304,41 +303,33 @@ else if(s == "/Chart"){
                     data: {
                         labels: t_bat,
                         datasets: [{
-                            label: 'bat_power(mW)',
+                            label: 'bat_power(%)',
                             data: d_bat_power,
                             fill: false,
                             borderColor: 'rgb(255, 25, 192)',
                         }]
                     },
                     options: myCharOption
-                });    
+                });
+                console.log("(debug)[chart_show]t_bat.length:",t_bat.length);
             }
         }
         else{
             var chart = new Chart(document.getElementById('myChart1'), null);
             canvas[0].id="";
         }
-        
         if(canvas[1].id != "myChart2"){
             if(node != undefined){
                 canvas[1].id="myChart2";
-                var d_gps_lng = [];
-                var d_gps_alt = [];
-                var t_gps = [];
                 var d_bat_volt = [];
                 var d_bat_cur = [];
                 var d_bat_power = []; 
                 var t_bat = [];
-                for(var i = 0;i < node["data"]["gps"].length;i++){
-                    t_gps.push(node["data"]["gps"][i]["Timestamp"]);
-                    d_gps_lng.push(node["data"]["gps"][i]["gps_lng"]);
-                    d_gps_alt.push(node["data"]["gps"][i]["gps_alt"]);
-                }
                 for(var i = 0;i < node["data"]["bat"].length;i++){
                     t_bat.push(node["data"]["bat"][i]["Timestamp"]);
-                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt"]);
-                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur"]);
-                    d_bat_power.push(node["data"]["bat"][i]["bat_power"]);
+                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt(V)"]);
+                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur(mA)"]);
+                    d_bat_power.push(node["data"]["bat"][i]["bat_power(%)"]);
                 }
                 var ctx = document.getElementById('myChart2');
                 var chart = new Chart(ctx, {
@@ -430,7 +421,7 @@ else if(s == "/show_log"){
         }
     }
     console.log("(test)");
-    var refresh = setInterval(() => {location.reload();console.log("test")},1000);
+    var refresh = setInterval(() => {location.reload();console.log("test")},100);
 }
 
 

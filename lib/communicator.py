@@ -1,4 +1,4 @@
-
+import os
 import sys
 import socket
 import threading
@@ -54,7 +54,12 @@ def ParseData(msg = None):  #解析從node接收到的資料
             return False
         with open("public/file/data_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
             print("(debug)[ParseData]open lMsg[1]:",lMsg[1])
+            #if(lMsg[1] != '\n'): lMsg[1] += '\n'
             f.writelines(lMsg[1])
+        
+        os.system("python3 ./lib/data_parser.py {ip} {port}".format(ip=param["ip"],port=param["port"]))
+
+        
     except Exception as e:
         print("(error)[ParseData]e:",e)
 
