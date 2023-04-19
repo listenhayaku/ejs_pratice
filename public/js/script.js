@@ -243,10 +243,16 @@ else if(s == "/Chart"){
     var canvas = document.querySelectorAll("canvas");
     var node_select = document.getElementById("node_select");
     var ul;
+    var myChart1;
+    var myChart2;
     var myCharOption = {
-        //responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        animation: {
+            duration: 0
+        }
     }
+    var UpdateChartTimer;
+
 
     function update_select_list(){
         ul = document.querySelector("[id=ul_node_select]");
@@ -265,14 +271,74 @@ else if(s == "/Chart"){
 
         for(let i = 0;i < document.querySelectorAll("[id=ul_node_select] li").length;i++){
             document.querySelectorAll("[id=ul_node_select] li")[i].onclick = function(){
-                node = recv[i];
+                var ip = recv[i].ip;
+                var port = recv[i].port;
+                node = {ip,port};
                 node_select.textContent = node["ip"]+":"+node["port"];
                 document.querySelector("[id=ul_node_select]").classList.add("hiddenAni");
+                ShowChart();
+                UpdateChart();
             };
         }
 
     }
+    function ShowChart(){
+        var ctx1 = document.getElementById("chart1");
+        myChart1 = new Chart(ctx1,{
+            type: "line",
+            data: undefined,
+            options: undefined
+        });
+        var ctx2 = document.getElementById("chart2");
+        myChart2 = new Chart(ctx2,{
+            type: "line",
+            data: undefined,
+            options: undefined
+        });
+    }
+    function UpdateChart(){
+        console.log("(debug)[UpdateChart]start");
+        var NodeData = {"Timestamp":[],"bat_volt(V)":[],"bat_cur(mA)":[],"bat_power(%)":[]};
+        var RecvIndex;
+        for(RecvIndex = 0;RecvIndex < recv.length;RecvIndex++){
+            if(recv[RecvIndex].ip == node["ip"] && recv[RecvIndex].port == node["port"]){
+                break;
+            }
+        }
+        if(RecvIndex >= recv.length) return false;
+        for(var i = (recv[RecvIndex]["data"]["bat"].length > 10 ? recv[RecvIndex]["data"]["bat"].length - 10: 0);i < recv[RecvIndex]["data"]["bat"].length;i++){
+            NodeData["Timestamp"].push(recv[RecvIndex]["data"]["bat"][i]["Timestamp"]);
+            NodeData["bat_volt(V)"].push(recv[RecvIndex]["data"]["bat"][i]["bat_volt(V)"]);
+            NodeData["bat_cur(mA)"].push(recv[RecvIndex]["data"]["bat"][i]["bat_cur(mA)"]);
+            NodeData["bat_power(%)"].push(recv[RecvIndex]["data"]["bat"][i]["bat_power(%)"]);
+        }
 
+        myChart1.data = {
+            labels: NodeData["Timestamp"],
+            datasets: [{
+                label: "bat_power(%)",
+                data: NodeData["bat_power(%)"],
+                borderColor: "rgb(255,0,192)"
+            }]
+        };
+        myChart1.options = myCharOption;
+        myChart2.data = {
+            labels: NodeData["Timestamp"],
+            datasets: [{
+                label: "bat_volt(V)",
+                data: NodeData["bat_volt(V)"],
+                borderColor: "rgb(74,192,192)"
+            },
+            {
+                label: "bat_cur(mA)",
+                data: NodeData["bat_cur(mA)"],
+                borderColor: "rgb(0,255,192)"
+            }]
+        };
+        myChart2.options = myCharOption;
+        myChart1.update();
+        myChart2.update();
+    }
     node_select.onclick = function(){
         if(document.querySelector("[id=ul_node_select]").classList.toString().includes("hiddenAni")){
             document.querySelector("[id=ul_node_select]").classList.remove("hiddenAni");
@@ -282,92 +348,16 @@ else if(s == "/Chart"){
         }
         update_select_list();
     }
-    chart_show.onclick = function(){
-        if(canvas[0].id != "myChart1"){
-            if(node != undefined){
-                canvas[0].id="myChart1";
-                var d_bat_volt = [];
-                var d_bat_cur = [];
-                var d_bat_power = []; 
-                var t_bat = [];
-
-                for(var i = 0;i < node["data"]["bat"].length;i++){
-                    t_bat.push(node["data"]["bat"][i]["Timestamp"]);
-                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt(V)"]);
-                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur(mA)"]);
-                    d_bat_power.push(node["data"]["bat"][i]["bat_power(%)"]);
-                }
-                var ctx = document.getElementById('myChart1');
-                var chart = new Chart(ctx, {
-                    type: "line", // 圖表類型
-                    data: {
-                        labels: t_bat,
-                        datasets: [{
-                            label: 'bat_power(%)',
-                            data: d_bat_power,
-                            fill: false,
-                            borderColor: 'rgb(255, 25, 192)',
-                        }]
-                    },
-                    options: myCharOption
-                });
-                console.log("(debug)[chart_show]t_bat.length:",t_bat.length);
-            }
-        }
-        else{
-            var chart = new Chart(document.getElementById('myChart1'), null);
-            canvas[0].id="";
-        }
-        if(canvas[1].id != "myChart2"){
-            if(node != undefined){
-                canvas[1].id="myChart2";
-                var d_bat_volt = [];
-                var d_bat_cur = [];
-                var d_bat_power = []; 
-                var t_bat = [];
-                for(var i = 0;i < node["data"]["bat"].length;i++){
-                    t_bat.push(node["data"]["bat"][i]["Timestamp"]);
-                    d_bat_volt.push(node["data"]["bat"][i]["bat_volt(V)"]);
-                    d_bat_cur.push(node["data"]["bat"][i]["bat_cur(mA)"]);
-                    d_bat_power.push(node["data"]["bat"][i]["bat_power(%)"]);
-                }
-                var ctx = document.getElementById('myChart2');
-                var chart = new Chart(ctx, {
-                    type: "line", // 圖表類型
-                    data: {
-                        labels: t_bat,
-                        datasets: [{
-                            label: 'bat_cur(mA)',
-                            data: d_bat_cur,
-                            fill: false,
-                            borderColor: 'rgb(75, 192, 192)',
-                        },
-                        {
-                            label: 'bat_volt(V)',
-                            data: d_bat_volt,
-                            fill: false,
-                            borderColor: 'rgb(255, 192, 192)',
-                        }]
-                    },
-                    options: myCharOption
-                });    
-            }
-        }
-        else{
-           
-            var chart = new Chart(document.getElementById('myChart2'), null);
-            canvas[1].id="";
-        }
-    };
-
     function connect_to_api(msg = ""){
         ws = new WebSocket("wss://"+self.location.hostname+":3000");
         ws.onopen = () => {
             console.log("open connection");
             ws.send(msg);
+            UpdateChartTimer = setInterval(UpdateChart,1000);
         }
         ws.onclose = () => {
             console.log("close connection");
+            clearInterval(UpdateChartTimer);
         }
         ws.onmessage = event => {
             if(event.data instanceof Blob){
@@ -380,8 +370,6 @@ else if(s == "/Chart"){
             else{
                 try{
                     recv = JSON.parse(event.data);
-                    //console.log(data);
-                    //update_select_list();
                 }
                 catch(e){
                     //console.log(e);
