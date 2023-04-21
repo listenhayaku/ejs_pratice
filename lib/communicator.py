@@ -52,7 +52,7 @@ def ParseData(msg = None):  #解析從node接收到的資料
         if(lMsg[0] != "data"):
             print("(error)[communicator.py][ParseData]lMsg[0] is not data,lMsg[0] is",lMsg[0])
             return False
-        with open("public/file/data_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
+        with open("public/file/log/data_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
             print("(debug)[ParseData]open lMsg[1]:",lMsg[1])
             #if(lMsg[1] != '\n'): lMsg[1] += '\n'
             f.writelines(lMsg[1])
