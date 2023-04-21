@@ -409,7 +409,15 @@ else if(s == "/show_log"){
         }
     }
     console.log("(test)");
-    var refresh = setInterval(() => {location.reload();console.log("test")},100);
+    async function sleep(){
+        await new Promise(r => setTimeout(r, 5000));
+    }
+    sleep();
+    async function show(){
+        await sleep();
+        document.querySelector("iframe").classList.remove("hiddenAni");
+    }
+    show();
 }
 
 
