@@ -119,7 +119,7 @@ exports.api = function(){
  
                 clients.forEach(client=>{
                   client.send(doc);
-                });  
+                });
               } catch(e) {
                 console.log("(error)[api][show_log]readfile error");
               }
@@ -131,7 +131,7 @@ exports.api = function(){
             }
           }
           send_ledge(index || 0);
-          ledgeUpdateTimer = setInterval(()=>send_ledge(),3000);
+          ledgeUpdateTimer = setInterval(async ()=>send_ledge(index),3000);
         }
         else{
           console.log("(debug)[api][ws.on]event mseeage else data:",data.toString());

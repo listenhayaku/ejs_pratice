@@ -4,7 +4,7 @@ import time
 import csv
 
 
-datapath = os.getcwd()+"/public/file/"
+datapath = os.getcwd()+"/public/file/log/"
 batpath = os.getcwd()+"/public/file/log/bat/"
 gpspath = os.getcwd()+"/public/file/log/gps/"
 
