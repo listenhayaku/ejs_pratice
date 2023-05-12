@@ -49,13 +49,27 @@ def ParseData(msg = None):  #解析從node接收到的資料
             print("(error)[communicator.py][ParseData]msg type is not string")
             return False
         lMsg = msg.split("//")
-        if(lMsg[0] != "data"):
+
+        if(lMsg[0] == "data"):
+            with open("public/file/log/data_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
+                print("(debug)[ParseData]open lMsg[1]:",lMsg[1])
+                #if(lMsg[1] != '\n'): lMsg[1] += '\n'
+                f.writelines(lMsg[1])
+            
+            os.system("python3 ./lib/data_parser.py {ip} {port}".format(ip=param["ip"],port=param["port"]))
+        elif(lMsg[0] == "GCS_ledge"):
+            if(lMsg[1] == "[send_ledge_to_GCS]start"):
+                with open("public/file/log/ledge/ledge_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"w") as f:
+                    #f.write("")
+                    pass
+            else:
+                with open("public/file/log/ledge/ledge_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
+                    f.write(lMsg[1])
+        else:
             print("(error)[communicator.py][ParseData]lMsg[0] is not data,lMsg[0] is",lMsg[0])
             return False
-        with open("public/file/log/data_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
-            print("(debug)[ParseData]open lMsg[1]:",lMsg[1])
-            #if(lMsg[1] != '\n'): lMsg[1] += '\n'
-            f.writelines(lMsg[1])
+
+
         
         os.system("python3 ./lib/data_parser.py {ip} {port}".format(ip=param["ip"],port=param["port"]))
 
@@ -88,9 +102,13 @@ try:
         if(param["send"] == "true"):
             client.send(param["data"].encode("utf-8"))  #這個是參數設定要傳遞的訊息
         msg = client.recv(4096)
+        #with open("log/msg_{ip}:{port}.txt".format(ip=param["ip"],port=param["port"]),"a") as f:
+            #f.write("{msg}\n".format(msg=msg.decode("utf-8")))
+                    
         if(msg != ""):
             print(msg.decode("utf-8"))
             ParseData(msg.decode("utf-8"))
+
         else:STOP = True #maybe has problem
 except ConnectionResetError:
     pass

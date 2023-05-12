@@ -386,9 +386,12 @@ else if(s == "/show_log"){
     //var ws = new WebSocket('ws://localhost:3000');
     //var ws = new WebSocket("ws://"+api("ip")+":3000");
     var ws = new WebSocket('wss://'+self.location.hostname+":3000");
+    var container = document.getElementById("show_log_container");
+
 
     ws.onopen = () => {
         console.log('open connection');
+        ws.send("show_log"+location.search);
     }
     
     ws.onclose = () => {
@@ -406,18 +409,16 @@ else if(s == "/show_log"){
         }
         else{
             console.log(event.data);
+            var buffer = event.data;
+            buffer = buffer.replaceAll("\n","\r\n");
+            container.innerText = buffer;
         }
     }
     console.log("(test)");
     async function sleep(){
         await new Promise(r => setTimeout(r, 5000));
     }
-    sleep();
-    async function show(){
-        await sleep();
-        document.querySelector("iframe").classList.remove("hiddenAni");
-    }
-    show();
+
 }
 
 

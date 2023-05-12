@@ -239,7 +239,7 @@ function main(){
     else{
       var number = q.replace("?","");
       mylib.get_mysql("select * from {database}.{table}",function(result){
-        res.render("show_log",{"title":"show log","number":number,"ip":result[number].ip,"port":result[number].port,});
+        res.render("show_log",{"title":"show log","number":number,});
       });
       //res.render("show_log",{"title":"show log","number":number,});
     }

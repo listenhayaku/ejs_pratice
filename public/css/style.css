@@ -354,6 +354,9 @@ input[type=submit],input[type=button]:hover{
     float: right;
 }
 
+#show_log_container{
+    background-color: var(--drone-primary-color-4);
+}
 
 
 

@@ -38,6 +38,7 @@ exports.api = function(){
       let monitorTimer;
       let sendNowTimer;
       let chartTimer;
+      let ledgeUpdateTimer;
 
       //對 message 設定監聽，接收從 Client 發送的訊息
       ws.on('message', data => {
@@ -59,6 +60,15 @@ exports.api = function(){
               });
             });
           },500);
+
+          function ledgeUpdate(){
+
+          };
+          ledgeUpdate();
+
+          ledgeUpdateTimer = setInterval(()=>{
+            ledgeUpdate;
+          },5000);
           
           //開啟monitor監控
           //monitor改道這裡不知道會不會有問題，例如很多連線的時候會怎開timer？
@@ -85,7 +95,7 @@ exports.api = function(){
               ws.send(JSON.stringify(data));
             }
             send();
-            chartTimer = setInterval(send,5000);
+            chartTimer = setInterval(()=>send(),5000);
           }
           Chart();
         }
@@ -96,6 +106,33 @@ exports.api = function(){
           //console.log("(debug)[api]"+parseInt(data.toString().split(":")[1],10));
           mylib.communicator(info.ip,info.port,"pause",true);
         }
+        else if(data.toString().includes("show_log")){
+          var clients = wss.clients;
+          index = (data.toString().split("?"))[1];
+          async function send_ledge(index){
+            var sql_data = await mylib.get_mysql_ret("SELECT * from {database}.{table}");
+            var Filename = "./public/file/log/ledge/ledge_"+sql_data[index].ip+":"+sql_data[index].port+".txt";
+            console.log("(debug)[api][show_log]Filename:",Filename);
+            if(fs.existsSync(Filename)){
+              try{
+                var doc = fs.readFileSync(Filename,"utf-8");
+ 
+                clients.forEach(client=>{
+                  client.send(doc);
+                });  
+              } catch(e) {
+                console.log("(error)[api][show_log]readfile error");
+              }
+            }
+            else{
+              clients.forEach(client=>{
+                client.send("file does not exist");
+              });
+            }
+          }
+          send_ledge(index || 0);
+          ledgeUpdateTimer = setInterval(()=>send_ledge(),3000);
+        }
         else{
           console.log("(debug)[api][ws.on]event mseeage else data:",data.toString());
         }
@@ -105,6 +142,7 @@ exports.api = function(){
           clearInterval(sendNowTimer);
           clearInterval(monitorTimer);
           clearInterval(chartTimer);
+          clearInterval(ledgeUpdateTimer);
           console.log('[api]Close connected')
       })
   })
